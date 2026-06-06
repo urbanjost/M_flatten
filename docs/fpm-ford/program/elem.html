@@ -87,19 +87,19 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="14.9% of total for programs.">47 statements</a>
+                 title=" 8.5% of total for programs.">27 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/main.f90"> Source File</a>
+              <a href="../src/alt2.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/main.f90.html'>main.f90</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/alt2.f90.html'>alt2.f90</a></li>
             <li class="breadcrumb-item active" aria-current="page">elem</li>
           </ol>
         </nav>
@@ -155,7 +155,6 @@
       <div id="subs-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../program/elem.html#proc-wanted">wanted</a>
-            <a class="list-group-item" href="../program/elem.html#proc-wanted1">wanted1</a>
         </div>
       </div>
     </div>
@@ -180,19 +179,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-        <div class="card mb-4">
-      <h3 class="card-header card-title bg-light">Uses</h3>
-      <div class="card-body">
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/m_flatten.html'>M_flatten</a></li>
-              </ul>
-            </li>
-        </ul>
-      </div>
-    </div>
-
+    
     
 
 
@@ -322,7 +309,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~3"></span>
+              <span class="anchor" id="variable-a~2"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -337,7 +324,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~2"></span>
+              <span class="anchor" id="variable-b"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -357,73 +344,16 @@
     </div>
   </div>
 
-      <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-wanted1"></span> <h3> subroutine <a href='../proc/wanted1.html'>wanted1</a>(a, b)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~2"></span>
-              integer,
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>a</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-b"></span>
-              integer,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>b</strong>(:)</td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
     </section>    
     
 
     <section>
     <h2 id="src">Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="k">program </span><span class="n">elem</span>
-<span class="k">use </span><span class="n">M_flatten</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">flatten</span>
 <span class="k">implicit none</span>
 <span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span>
 <span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b0</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">b2</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">b3</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">&#39;WANTED:&#39;</span>
 <span class="w">   </span><span class="n">a</span><span class="o">=</span><span class="mi">0</span>
 <span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b0</span><span class="w"> </span><span class="p">)</span>
 <span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b0=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b0</span>
@@ -434,37 +364,13 @@
 <span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b3</span><span class="w"> </span><span class="p">)</span>
 <span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b3=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b3</span>
 
-
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">&#39;WANTED1:&#39;</span>
-<span class="w">   </span><span class="c">! Alternatively, to avoid using pointers directly</span>
-<span class="w">   </span><span class="c">! write the called routine to expect a flattened</span>
-<span class="w">   </span><span class="c">! array and call the argument with flatten().</span>
-
-<span class="w">   </span><span class="n">a</span><span class="o">=</span><span class="mi">0</span>
-<span class="w">   </span><span class="k">call </span><span class="n">wanted1</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">flatten</span><span class="p">(</span><span class="n">b0</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
-<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b0=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b0</span>
-<span class="w">   </span><span class="k">call </span><span class="n">wanted1</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">flatten</span><span class="p">(</span><span class="n">b1</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
-<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b1=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span>
-<span class="w">   </span><span class="k">call </span><span class="n">wanted1</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">flatten</span><span class="p">(</span><span class="n">b2</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
-<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b2=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b2</span>
-<span class="w">   </span><span class="k">call </span><span class="n">wanted1</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">flatten</span><span class="p">(</span><span class="n">b3</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
-<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b3=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b3</span>
-
 <span class="k">contains</span>
 
-<span class="k">subroutine </span><span class="n">wanted1</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span>
-<span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span>
-<span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="p">(:)</span>
-<span class="kt">integer</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
-<span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-<span class="w">      </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">      </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span>
-<span class="w">   </span><span class="k">enddo</span>
-<span class="k">end subroutine </span><span class="n">wanted1</span>
-
 <span class="k">subroutine </span><span class="n">wanted</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span>
-<span class="c">! This technique is known as pointer rank remapping (introduced in Fortran 2003 and expanded in Fortran 2008).</span>
-<span class="c">! requires the multi-dimensional target array is simply contiguous.</span>
+<span class="k">use </span><span class="n">M_flatten</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">flatten</span>
+<span class="c">! This technique is known as pointer rank remapping (introduced in</span>
+<span class="c">! Fortran 2003 and expanded in Fortran 2008).</span>
+<span class="c">! It requires the multi-dimensional target array to be simply contiguous.</span>
 <span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span>
 <span class="kt">integer</span><span class="p">,</span><span class="k">target</span><span class="p">,</span><span class="w"> </span><span class="k">contiguous</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="p">(..)</span>
 <span class="kt">integer</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
@@ -499,7 +405,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-06-06 23:13 +0000             </p>
+ on 2026-06-06 23:22 +0000             </p>
           </div>
         </div>
         <br>
