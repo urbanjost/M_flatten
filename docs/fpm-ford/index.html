@@ -1,0 +1,562 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="creates a rank one array that points to a multi-dimensional or scalar array">
+    <meta name="author" content="John S. Urban" >
+    <link rel="icon" href="./favicon.png">
+
+    <title> M_flatten </title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="./css/fontawesome.min.css" rel="stylesheet">
+    <link href="./css/brands.min.css" rel="stylesheet">
+    <link href="./css/regular.min.css" rel="stylesheet">
+    <link href="./css/solid.min.css" rel="stylesheet">
+    <link href="./css/v4-font-face.min.css" rel="stylesheet">
+    <link href="./css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="./css/local.css" rel="stylesheet">
+    <link href="./css/pygments.css" rel="stylesheet">
+    <script src="./js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="./index.html">M_flatten </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="./lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="./search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <!-- Main component for a primary marketing message or call to action -->
+    <div class="p-5 mb-4 bg-light border rounded-3" id="jumbotron">
+      <p>creates a rank one array that points to a multi-dimensional or scalar array</p>
+        <p> Find us on&hellip;</p>
+      <p>
+        <a class="btn btn-lg btn-primary" href="https://github.com/urbanjost/M_flatten" role="button">GitHub</a>
+        
+        
+        
+        
+        <a class="btn btn-lg btn-danger" style="float:right" href="https://github.com/urbanjost/M_flatten/archive/refs/heads/master.zip" role="button">Download the Source</a>
+      </p>
+    </div>
+
+      <div class="row" id='text'>
+        <div class=col-md-8>
+          <h1>M_flatten</h1>
+          <h1 id="m_flatten">M_flatten</h1>
+<p>The <strong>M_flatten</strong> module provides the procedure <strong>flatten(3)</strong> which
+provides a function that returns a rank one array pointer which 
+points to a scalar or an array of any shape.</p>
+<h2 id="calling-flatten3-in-the-call-to-the-user-procedure">Calling FLATTEN(3) in the call to the user procedure</h2>
+<p>To avoid using pointers directly write the called routine to expect a
+flattened array and pass the arguments with varying rank in a call to 
+FLATTEN(3).</p>
+<p>Note that the called procedure WANTED(3) will not know the original rank
+or shape unless it is passed, but will know the size of the input array.</p>
+<p>The argument to <strong>FLATTEN(3)</strong> should be a whole contiguous array. A
+slice or subsection would almost certaining just create and alter a
+temporary.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_M_flatten</span>
+<span class="k">use </span><span class="n">M_flatten</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">flatten</span>
+<span class="k">implicit none</span>
+<span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span>
+<span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b0</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">b2</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">b3</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="w">   </span><span class="n">a</span><span class="o">=</span><span class="mi">0</span>
+<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">flatten</span><span class="p">(</span><span class="n">b0</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b0=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b0</span>
+<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">flatten</span><span class="p">(</span><span class="n">b1</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b1=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span>
+<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">flatten</span><span class="p">(</span><span class="n">b2</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b2=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b2</span>
+<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">flatten</span><span class="p">(</span><span class="n">b3</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b3=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b3</span>
+
+<span class="k">contains</span>
+
+<span class="k">subroutine </span><span class="n">wanted</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span>
+<span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span>
+<span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="p">(:)</span>
+<span class="kt">integer</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+<span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="w">      </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">      </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span>
+<span class="w">   </span><span class="k">enddo</span>
+<span class="k">end subroutine </span><span class="n">wanted</span>
+<span class="k">program </span><span class="n">demo_M_flatten</span>
+</code></pre></div>
+
+<h3 id="result">Result</h3>
+<div class="codehilite"><pre><span></span><code> a=           1 b0=           1
+ a=           4 b1=           2           3           4
+ a=           8 b2=           5           6           7           8
+ a=          12 b3=           9          10          11          12
+</code></pre></div>
+
+<h2 id="calling-flatten3-in-the-user-procedure">Calling FLATTEN(3) in the user procedure</h2>
+<p>A minor use of pointers is required in this alternate use of
+FLATTEN(3f) but the called routine can query the original input
+argument with RANK(3) and SHAPE(3) not just SIZE(3).</p>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">elem</span>
+<span class="k">implicit none</span>
+<span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span>
+<span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b0</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">b2</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">b3</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">b4</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="w">   </span><span class="n">a</span><span class="o">=</span><span class="mi">0</span>
+<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b0</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b0=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b0</span>
+<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b1=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span>
+<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b2</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b2=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b2</span>
+<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b3</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b3=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b3</span>
+
+<span class="w">   </span><span class="n">a</span><span class="o">=</span><span class="mi">0</span>
+<span class="w">   </span><span class="n">b4</span><span class="o">=-</span><span class="mi">99</span>
+<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b4</span><span class="p">(</span><span class="mi">2</span><span class="p">,:,:)</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b4=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b4</span>
+
+<span class="w">   </span><span class="n">a</span><span class="o">=</span><span class="mi">0</span>
+<span class="w">   </span><span class="n">b4</span><span class="o">=-</span><span class="mi">99</span>
+<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b4</span><span class="p">(:,</span><span class="mi">2</span><span class="p">,:)</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b4=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b4</span>
+
+<span class="k">contains</span>
+
+<span class="k">subroutine </span><span class="n">wanted</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span>
+<span class="c">! This technique is known as pointer rank remapping (introduced in</span>
+<span class="c">! Fortran 2003 and expanded in Fortran 2008). See below for details</span>
+<span class="k">use </span><span class="n">M_flatten</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">flatten</span>
+<span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span>
+<span class="kt">integer</span><span class="p">,</span><span class="k">target</span><span class="p">,</span><span class="w"> </span><span class="k">contiguous</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="p">(..)</span>
+<span class="kt">integer</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+<span class="kt">integer</span><span class="p">,</span><span class="k">pointer</span><span class="w">                         </span><span class="kd">::</span><span class="w"> </span><span class="n">p_b</span><span class="p">(:)</span>
+<span class="w">   </span><span class="n">p_b</span><span class="o">=&gt;</span><span class="n">flatten</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="w">      </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">      </span><span class="n">p_b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span>
+<span class="w">   </span><span class="k">enddo</span>
+<span class="k">end subroutine </span><span class="n">wanted</span>
+
+<span class="k">end program </span><span class="n">elem</span>
+</code></pre></div>
+
+<h2 id="result_1">Result</h2>
+<div class="codehilite"><pre><span></span><code>   a=  1   b0=    1                                 
+   a=  4   b1=    2    3    4                       
+   a=  8   b2=    5    6    7    8                  
+   a=  12  b3=    9   10   11   12                 
+   a=  4   b4=  -99    1  -99    2   -99    3  -99  4
+   a=  4   b4=  -99  -99    1    2   -99  -99    3  4
+</code></pre></div>
+
+<h3 id="a-single-dimension-array-pointer-can-point-to-a-multi-dimensional-array">A single-dimension array pointer can point to a multi-dimensional array?</h3>
+<p>Yes, a single-dimension (rank-1) array pointer can point to a
+multi-dimensional array in Fortran, provided that the multi-dimensional
+target array is simply contiguous.</p>
+<p>This technique is known as pointer rank remapping (introduced in Fortran
+2003 and expanded in Fortran 2008).</p>
+<h4 id="rules-and-requirements">Rules and Requirements</h4>
+<p><strong>Explicit Bounds:</strong> You must specify the explicit upper and lower
+  bounds on the left-hand side of the pointer assignment. You cannot
+  use a deferred colon (:).</p>
+<p><strong>Contiguity:</strong> The multi-dimensional target array must occupy
+  a continuous block of memory. Regular allocated or static arrays
+  are automatically contiguous, but array slices with strides (e.g.,
+  matrix(::2, :)) are not.</p>
+<p><strong>Array Size:</strong> The size of the pointer must exactly match or
+  be less than the total number of elements in the target array.
+  Target Attribute: The multi-dimensional array must be declared with
+  the target attribute.</p>
+<h2 id="do-you-really-require-something-as-general-as-flatten3">Do you really require something as general as FLATTEN(3)?</h2>
+<h3 id="elemental-procedures">Elemental procedures</h3>
+<p>If you wish to make a procedure that can be called with a specific 
+argument having different ranks you can use elemental procedures if
+all the arrays passed are of the same size and all the scalar arguments
+are INTENT(IN). </p>
+<p>Since the scalars are not able to be changed this allows for pure procedures
+to be called in parallel where each call to the scalar routine can be made
+in any order.</p>
+<h2 id="generic-interface">Generic interface</h2>
+<p>One could also write separate subroutines for each rank, and then make a
+<em>generic interface</em> for all of them. If there are only a few combinations
+of arguments with varying rank it has the advantage that there are not
+restrictions on the arrays all having the same rank or scalars being
+only INTENT(IN) and unsupported ranks are detected at compile time rather
+than run time. If there are multiple values that can be of different ranks
+independent of each other the number of permutations and thus the number
+of interface routines can get excessive. A preprocessor might help generate
+a large number of interfaces but FLATTEN(3) provides a simple alternative
+for such cases.</p>
+<h3 id="assumed-rank-and-select-rank">Assumed rank and SELECT RANK</h3>
+<p>Another approach is to define a dummy argument to be assumed rank.
+The programmer must then account for each rank manually.  It is possible
+to catch the assumed size case and treat it specially; in the following
+code it just writes a message saying it is unsupported.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">elem</span>
+<span class="w">   </span><span class="k">implicit none</span>
+<span class="k">   </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span>
+<span class="w">   </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b0</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">b2</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">b3</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="w">   </span><span class="n">a</span><span class="o">=</span><span class="mi">0</span>
+<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b0</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b0=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b0</span>
+<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b1=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span>
+<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b2</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b2=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b2</span>
+<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b3</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b3=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b3</span>
+
+<span class="k">contains</span>
+
+<span class="k">   subroutine </span><span class="n">wanted</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="p">)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">contiguous</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="p">(..)</span>
+
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">k</span>
+
+<span class="w">      </span><span class="k">select </span><span class="n">rank</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="w">      </span><span class="n">rank</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">      </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">      </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span>
+
+<span class="w">      </span><span class="n">rank</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="w">         </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">         </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span>
+<span class="w">      </span><span class="k">enddo</span>
+
+<span class="k">      </span><span class="n">rank</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">      </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="nb">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">         </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">            </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">            </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span>
+<span class="w">         </span><span class="k">enddo</span>
+<span class="k">      enddo</span>
+
+<span class="k">      </span><span class="n">rank</span><span class="w"> </span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">      </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="nb">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">         </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="nb">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">            </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">               </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">               </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span>
+<span class="w">            </span><span class="k">enddo</span>
+<span class="k">         enddo</span>
+<span class="k">      enddo</span>
+
+<span class="k">      </span><span class="n">rank</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;assumed size is unsupported&#39;</span>
+<span class="w">      </span><span class="k">stop </span><span class="mi">1</span>
+
+<span class="w">      </span><span class="n">rank</span><span class="w"> </span><span class="n">default</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w">  </span><span class="s1">&#39;unsupported rank&#39;</span>
+<span class="w">      </span><span class="k">stop </span><span class="mi">2</span>
+
+<span class="w">   </span><span class="k">end select</span>
+
+<span class="k">end subroutine </span><span class="n">wanted</span>
+<span class="k">end program </span><span class="n">elem</span>
+</code></pre></div>
+
+<h2 id="alternative-1-allowing-argument-mismatch-and-using-assumed-size-arrays-fortran-77-style">Alternative 1: Allowing argument mismatch and using assumed-size arrays (Fortran 77 Style)</h2>
+<p>Modern compilers frequently treat rank mismatches as a fatal error
+by default, which frequently impacts legacy Fortran 77 code. It was
+extremely common for pre-f90 compilers to allow argument rank mismatch
+and the extension was heavily used in many codes.</p>
+<p>So to allow a rank mismatch between an actual argument and a dummy
+argument in Fortran, you can generally apply a compiler-specific flag to
+bypass the error during compilation or (with most compilers) build the
+routine with no explicit interface in a separate file from the calls to
+the procedure.</p>
+<p>Explicit interfaces prevent a number of common errors and are a strongly
+desirable feature, so allowing rank mismatches is not recommended in
+general, but if you are compiling older code and cannot modify the source
+to use a modern method, here are examples of appropriate flags to your
+compiler to downgrade the error to a warning:</p>
+<div class="codehilite"><pre><span></span><code>gfortran (GCC 10+): Add the flag -fallow-argument-mismatch. You
+can also use -std=legacy, though it may introduce other unintended
+behaviors.
+
+Intel Fortran (ifort / ifx): Add the flag -warn noargument-mismatch
+or use directives like !DIR$ ATTRIBUTES NO_ARG_CHECK specifically
+before the dummy argument declaration to bypass checking on an
+individual routine.
+</code></pre></div>
+
+<p>Now if you want to pass a multi-dimensional array or a specific element of
+an array to a flat 1D sequence, you can use an <em>assumed-size array</em>.</p>
+<ul>
+<li>Declare the final dimension of the dummy argument with an asterisk (*).</li>
+<li>Pass the first element of the array or array section explicitly
+   (known as <em>sequence association</em>).</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">arbitrary</span>
+<span class="k">implicit none</span>
+<span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span>
+<span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b0</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">b2</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">b3</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">external </span><span class="n">wanted</span>
+
+<span class="w">   </span><span class="n">a</span><span class="o">=</span><span class="mi">0</span>
+<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b0</span><span class="w"> </span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b0=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b0</span>
+<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span><span class="w"> </span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">b1</span><span class="p">))</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b0=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span>
+<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b2</span><span class="w"> </span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">b2</span><span class="p">))</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b0=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b2</span>
+<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b3</span><span class="w"> </span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">b3</span><span class="p">))</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b0=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b3</span>
+<span class="k">contains</span>
+
+<span class="k">end program </span><span class="n">arbitrary</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="k">subroutine </span><span class="n">wanted</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="p">)</span>
+<span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span>
+<span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
+<span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span>
+<span class="kt">integer</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+<span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span>
+<span class="w">      </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">      </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span>
+<span class="w">   </span><span class="k">enddo</span>
+<span class="k">end subroutine </span><span class="n">wanted</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>$<span class="w"> </span>gfortran<span class="w"> </span>arbitrary.f90<span class="w"> </span>-fallow-argument-mismatch<span class="w"> </span>-o<span class="w"> </span>arbitrary
+arbitrary.f90:8:20:
+
+<span class="w">    </span><span class="m">8</span><span class="w"> </span><span class="p">|</span><span class="w">    </span>call<span class="w"> </span>wanted<span class="w"> </span><span class="o">(</span><span class="w"> </span>a,<span class="w"> </span>b0<span class="w"> </span>,1<span class="o">)</span>
+<span class="w">      </span><span class="p">|</span><span class="w">                    </span><span class="m">1</span>
+Warning:<span class="w"> </span>Rank<span class="w"> </span>mismatch<span class="w"> </span><span class="k">in</span><span class="w"> </span>argument<span class="w"> </span>‘b’<span class="w"> </span>at<span class="w"> </span><span class="o">(</span><span class="m">1</span><span class="o">)</span><span class="w"> </span><span class="o">(</span>rank-1<span class="w"> </span>and<span class="w"> </span>scalar<span class="o">)</span>
+
+./arbitrary
+<span class="w"> </span><span class="nv">a</span><span class="o">=</span><span class="w">           </span><span class="m">1</span><span class="w"> </span><span class="nv">b0</span><span class="o">=</span><span class="w">           </span><span class="m">1</span>
+<span class="w"> </span><span class="nv">a</span><span class="o">=</span><span class="w">           </span><span class="m">4</span><span class="w"> </span><span class="nv">b1</span><span class="o">=</span><span class="w">           </span><span class="m">2</span><span class="w">           </span><span class="m">3</span><span class="w">           </span><span class="m">4</span>
+<span class="w"> </span><span class="nv">a</span><span class="o">=</span><span class="w">           </span><span class="m">8</span><span class="w"> </span><span class="nv">b2</span><span class="o">=</span><span class="w">           </span><span class="m">5</span><span class="w">           </span><span class="m">6</span><span class="w">           </span><span class="m">7</span><span class="w">           </span><span class="m">8</span>
+<span class="w"> </span><span class="nv">a</span><span class="o">=</span><span class="w">          </span><span class="m">12</span><span class="w"> </span><span class="nv">b3</span><span class="o">=</span><span class="w">           </span><span class="m">9</span><span class="w">          </span><span class="m">10</span><span class="w">          </span><span class="m">11</span><span class="w">          </span><span class="m">12</span>
+</code></pre></div>
+
+<h2 id="alternative-2-experimental-method-proposed-for-f202y">Alternative 2: Experimental method proposed for F202Y</h2>
+<p>Using GNU Fortran (GCC) 16.0.0 20250727 (experimental) and a compiler
+switch to allow using proposed features lets you try a proposed 
+feature now that simplifies using assumed rank targets, eliminating
+the SELECT RANK requirement.</p>
+<p>By definition it is not certain this is how it will work in the next
+Fortran standard release.</p>
+<p>If you have a recent gfortran release compile the following program
+with</p>
+<div class="codehilite"><pre><span></span><code>gfortran<span class="w"> </span>-std<span class="o">=</span>f202y<span class="w">  </span>point.f90
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">proposed</span>
+<span class="k">implicit none</span>
+<span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span>
+<span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b0</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">b2</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">b3</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="w">   </span><span class="n">a</span><span class="o">=</span><span class="mi">0</span>
+<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b0</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b0=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b0</span>
+<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b1=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span>
+<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b2</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b2=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b2</span>
+<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b3</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b3=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b3</span>
+
+<span class="k">contains</span>
+
+<span class="k">subroutine </span><span class="n">wanted</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span>
+<span class="c">! NOTE: This technique uses pointer rank remapping (introduced in</span>
+<span class="c">! Fortran 2003 and expanded in Fortran 2008), which requires the </span>
+<span class="c">! multi-dimensional target array be simply contiguous.</span>
+<span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span>
+<span class="kt">integer</span><span class="p">,</span><span class="k">target</span><span class="p">,</span><span class="w"> </span><span class="k">contiguous</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="p">(..)</span>
+<span class="kt">integer</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span>
+<span class="kt">integer</span><span class="p">,</span><span class="k">pointer</span><span class="w">                         </span><span class="kd">::</span><span class="w"> </span><span class="n">p_b</span><span class="p">(:)</span>
+<span class="w">   </span><span class="c">! NOTE: The assumed rank target is an experimental F202y feature. </span>
+<span class="w">   </span><span class="n">p_b</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span><span class="o">=&gt;</span><span class="n">b</span><span class="w">  </span><span class="c">! will this be allowed outside of SELECT RANK </span>
+<span class="w">                </span><span class="c">! and work with a scalar?</span>
+<span class="w">   </span><span class="c">! NOTE: Explicit bounds are required. That is, you must </span>
+<span class="w">   </span><span class="c">! specify the explicit upper and lower bounds</span>
+<span class="w">   </span><span class="c">! on the left-hand side of the pointer assignment.</span>
+<span class="w">   </span><span class="k">do </span><span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="w">      </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">      </span><span class="n">p_b</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span>
+<span class="w">   </span><span class="k">enddo</span>
+<span class="k">end subroutine </span><span class="n">wanted</span>
+
+<span class="k">end program </span><span class="n">proposed</span>
+</code></pre></div>
+
+<h2 id="summary">Summary</h2>
+<p>The <strong>FLATTEN(3)</strong> procedure generically allows for multi-dimensional
+   arrays to be accessed as flattened arrays efficiently without having
+   to copy the data to and from other shapes.</p>
+<p>Consider other methods carefully to decide on whether an alternative to
+   <strong>FLATTEN(3C)</strong> is more appropriate:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">+</span><span class="w"> </span><span class="n">elemental</span><span class="w"> </span><span class="n">procedures</span>
+<span class="o">+</span><span class="w"> </span><span class="n">use</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">intrinsics</span><span class="w"> </span><span class="n">such</span><span class="w"> </span><span class="n">as</span><span class="w"> </span><span class="o">**</span><span class="n">RESHAPE</span><span class="p">(</span><span class="mh">3</span><span class="p">),</span><span class="w"> </span><span class="n">PACK</span><span class="p">(</span><span class="mh">3</span><span class="p">),</span><span class="w"> </span><span class="n">UNPACK</span><span class="p">(</span><span class="mh">3</span><span class="p">)</span><span class="o">**</span><span class="p">.</span>
+<span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">legacy</span><span class="p">)</span><span class="w"> </span><span class="n">sequence</span><span class="w"> </span><span class="n">association</span><span class="w"> </span>
+<span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">proposed</span><span class="p">)</span><span class="w"> </span><span class="n">pointer</span><span class="w"> </span><span class="n">assignment</span><span class="w"> </span><span class="n">to</span>
+</code></pre></div>
+
+<hr>
+<div class="codehilite"><pre><span></span><code>Allowing this was a de-facto standard behavior but never part of the standard
+so you generally can do this with a compiler option to allow legacy behavior.
+
+A little more standard way is to use sequence association. It is generally
+acceptable to do this with legacy code but is probably frowned upon when
+writing new code.
+
+You can also create a flattened copy of the arrays and pass the temporary
+and then store it back into the original, which can be lot of overhead.
+
+For most cases you do not have to do that many dimensions, so I would
+generally recommend the standard methods, as most (certainly not all
+though) codes use four dimensions or less, or do just a few multi-dimensional
+sizes so in practice they are reasonable methods.
+
+That being said ...
+
+You can use sequence association. Place the &quot;wanted&quot; procedure in a 
+seperate file without an interface, like you often would with F77 code.
+
+Declare the dummy argument dimension with an asterisk (*).
+
+Pass the number of elements as a new argument.
+
+Pass the first element of the array or array section explicitly (known as sequence association).
+
+You might have to add a compiler-specific option depending on how much the
+compiler wants to prevent you from using sequence association.
+</code></pre></div>
+        </div>
+          <div class="col-md-4">
+            <div class="card card-body bg-light">
+              <h2 class="card-title">Developer Info</h2>
+              <h4 class="card-text">John S. Urban</h4>
+              <p class="card-text"></p>
+                <div class="text-center"><div class="btn-group" role="group">
+                    
+                    <a class="btn btn-lg btn-primary" href="https://github.com/urbanjost/M_flatten"><i class="fa fa-github fa-lg"></i></a>
+                    
+                    
+                    
+                    
+                    
+                    
+                </div></div>
+            </div>
+          </div>
+      </div>
+        <div class="row">
+          <hr>
+          <div class="col-xs-6 col-sm-4">
+            <div>
+              <h3>Source Files</h3>
+              <ul><li><a href='sourcefile/alt1.f90.html'>alt1.f90</a></li><li><a href='sourcefile/alt2.f90.html'>alt2.f90</a></li><li><a href='sourcefile/alt4.f90.html'>alt4.f90</a></li><li><a href='sourcefile/elem.f90.html'>elem.f90</a></li><li><a href='sourcefile/fid.f90.html'>fid.f90</a></li><li><a href='sourcefile/m_flatten.f90.html'>M_flatten.f90</a></li><li><a href='sourcefile/main.f90.html'>main.f90</a></li><li><a href='sourcefile/test_suite_m_flatten.f90.html'>test_suite_M_flatten.f90</a></li></ul>
+            </div>
+            <div>
+              <ul>
+                <li><a href="./lists/files.html"><em>All source files&hellip;</em></a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-xs-6 col-sm-4">
+            <div>
+              <h3>Modules</h3>
+              <ul><li><a href='module/m_flatten.html'>M_flatten</a></li></ul>
+            </div>
+            <div>
+              <ul>
+                <li><a href="./lists/modules.html"><em>All modules&hellip;</em></a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-xs-6 col-sm-4">
+            <div>
+              <h3>Procedures</h3>
+              <ul><li><a href='interface/flatten.html'>flatten</a></li><li><a href='proc/test_flatten.html'>test_flatten</a></li><li><a href='proc/wanted.html'>wanted</a></li><li><a href='proc/wanted~2.html'>wanted</a></li><li><a href='proc/wanted~3.html'>wanted</a></li><li><a href='proc/wanted~4.html'>wanted</a></li><li><a href='proc/wanted~5.html'>wanted</a></li><li><a href='proc/wanted~6.html'>wanted</a></li><li><a href='proc/wanted1.html'>wanted1</a></li><li><a href='proc/wanted1~2.html'>wanted1</a></li></ul>
+            </div>
+            <div>
+              <ul>
+                <li><a href="./lists/procedures.html"><em>All procedures&hellip;</em></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              M_flatten
+ was developed by John S. Urban<br>              &copy; 2026 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2026-06-06 22:25 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>
