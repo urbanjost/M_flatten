@@ -1,0 +1,30 @@
+program arbitrary
+implicit none
+integer :: a
+integer :: b0, b1(-1:1), b2(2,2), b3(2,2,1)
+external wanted
+
+   write(*,*)'WANTED:'
+   a=0
+   call wanted ( a, b0 ,1)
+   print *, 'a=', a, 'b0=', b0
+   call wanted ( a, b1 ,size(b1))
+   print *, 'a=', a, 'b0=', b1
+   call wanted ( a, b2 ,size(b2))
+   print *, 'a=', a, 'b0=', b2
+   call wanted ( a, b3 ,size(b3))
+   print *, 'a=', a, 'b0=', b3
+contains
+
+end program arbitrary
+
+subroutine wanted( a, b, n )
+integer, intent(inout) :: a
+integer, intent(out)   :: b(*)
+integer, intent(in)    :: n
+integer                :: i
+   do i=1,n
+      a = a + 1
+      b(i) = a
+   enddo
+end subroutine wanted

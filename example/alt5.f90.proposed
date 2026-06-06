@@ -1,0 +1,39 @@
+program proposed
+! gfortran -std=f202y  point.f90
+implicit none
+integer :: a
+integer :: b0, b1(-1:1), b2(2,2), b3(2,2,1)
+
+   a=0
+   call wanted ( a, b0 )
+   print *, 'a=', a, 'b0=', b0
+   call wanted ( a, b1 )
+   print *, 'a=', a, 'b1=', b1
+   call wanted ( a, b2 )
+   print *, 'a=', a, 'b2=', b2
+   call wanted ( a, b3 )
+   print *, 'a=', a, 'b3=', b3
+
+contains
+
+subroutine wanted( a, b)
+! NOTE: This technique uses pointer rank remapping (introduced in
+! Fortran 2003 and expanded in Fortran 2008), which requires the 
+! multi-dimensional target array be simply contiguous.
+integer, intent(inout)                  :: a
+integer,target, contiguous, intent(out) :: b(..)
+integer                                 :: n
+integer,pointer                         :: p_b(:)
+   ! this uses the proposed feature:
+   p_b(1:n)=>b  ! will this be allowed outside of SELECT RANK 
+                ! and work with a scalar?
+   ! NOTE: Explicit bounds are required. That is, you must 
+   ! specify the explicit upper and lower bounds
+   ! on the left-hand side of the pointer assignment.
+   do n=1,size(b)
+      a = a + 1
+      p_b(n) = a
+   enddo
+end subroutine wanted
+
+end program proposed

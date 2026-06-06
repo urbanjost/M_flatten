@@ -1,0 +1,9 @@
+'mainpage.txt
+/**
+     @mainpage M_flatten Fortran Library
+
+     @section Introduction
+      Return a rank-one pointer to a scalar or multi-dimensional array
+
+     @image html html/images/swirl.gif
+*/'
