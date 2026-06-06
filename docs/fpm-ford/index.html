@@ -95,11 +95,11 @@
           <h1>M_flatten</h1>
           <h1 id="m_flatten">M_flatten</h1>
 <p>The <strong>M_flatten</strong> module provides the procedure <strong>flatten(3)</strong> which
-provides a function that returns a rank one array pointer which 
+provides a function that returns a rank one array pointer which
 points to a scalar or an array of any shape.</p>
 <h2 id="calling-flatten3-in-the-call-to-the-user-procedure">Calling FLATTEN(3) in the call to the user procedure</h2>
 <p>To avoid using pointers directly write the called routine to expect a
-flattened array and pass the arguments with varying rank in a call to 
+flattened array and pass the arguments with varying rank in a call to
 FLATTEN(3).</p>
 <p>Note that the called procedure WANTED(3) will not know the original rank
 or shape unless it is passed, but will know the size of the input array.</p>
@@ -193,10 +193,10 @@ argument with RANK(3) and SHAPE(3) not just SIZE(3).</p>
 </code></pre></div>
 
 <h2 id="result_1">Result</h2>
-<div class="codehilite"><pre><span></span><code>   a=  1   b0=    1                                 
-   a=  4   b1=    2    3    4                       
-   a=  8   b2=    5    6    7    8                  
-   a=  12  b3=    9   10   11   12                 
+<div class="codehilite"><pre><span></span><code>   a=  1   b0=    1
+   a=  4   b1=    2    3    4
+   a=  8   b2=    5    6    7    8
+   a=  12  b3=    9   10   11   12
    a=  4   b4=  -99    1  -99    2   -99    3  -99  4
    a=  4   b4=  -99  -99    1    2   -99  -99    3  4
 </code></pre></div>
@@ -221,10 +221,10 @@ target array is simply contiguous.</p>
   the target attribute.</p>
 <h2 id="do-you-really-require-something-as-general-as-flatten3">Do you really require something as general as FLATTEN(3)?</h2>
 <h3 id="elemental-procedures">Elemental procedures</h3>
-<p>If you wish to make a procedure that can be called with a specific 
+<p>If you wish to make a procedure that can be called with a specific
 argument having different ranks you can use elemental procedures if
 all the arrays passed are of the same size and all the scalar arguments
-are INTENT(IN). </p>
+are INTENT(IN).</p>
 <p>Since the scalars are not able to be changed this allows for pure procedures
 to be called in parallel where each call to the scalar routine can be made
 in any order.</p>
@@ -388,9 +388,28 @@ Warning:<span class="w"> </span>Rank<span class="w"> </span>mismatch<span class=
 <span class="w"> </span><span class="nv">a</span><span class="o">=</span><span class="w">          </span><span class="m">12</span><span class="w"> </span><span class="nv">b3</span><span class="o">=</span><span class="w">           </span><span class="m">9</span><span class="w">          </span><span class="m">10</span><span class="w">          </span><span class="m">11</span><span class="w">          </span><span class="m">12</span>
 </code></pre></div>
 
+<p>Generally when using sequence association and rank mismatch:</p>
+<ul>
+<li>
+<p>Place the &ldquo;wanted&rdquo; procedure in a seperate file without an
+   interface, like you often would with F77 code.</p>
+</li>
+<li>
+<p>Declare the dummy argument dimension with an asterisk (*).</p>
+</li>
+<li>
+<p>Pass the number of elements as a new argument.</p>
+</li>
+<li>
+<p>Pass the first element of the array or array section explicitly
+   (this is the part known as sequence association).</p>
+</li>
+</ul>
+<p>You might have to add a compiler-specific option depending on how much the
+compiler wants to prevent you from using sequence association.</p>
 <h2 id="alternative-2-experimental-method-proposed-for-f202y">Alternative 2: Experimental method proposed for F202Y</h2>
 <p>Using GNU Fortran (GCC) 16.0.0 20250727 (experimental) and a compiler
-switch to allow using proposed features lets you try a proposed 
+switch to allow using proposed features lets you try a proposed
 feature now that simplifies using assumed rank targets, eliminating
 the SELECT RANK requirement.</p>
 <p>By definition it is not certain this is how it will work in the next
@@ -419,16 +438,16 @@ with</p>
 
 <span class="k">subroutine </span><span class="n">wanted</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span>
 <span class="c">! NOTE: This technique uses pointer rank remapping (introduced in</span>
-<span class="c">! Fortran 2003 and expanded in Fortran 2008), which requires the </span>
+<span class="c">! Fortran 2003 and expanded in Fortran 2008), which requires the</span>
 <span class="c">! multi-dimensional target array be simply contiguous.</span>
 <span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span>
 <span class="kt">integer</span><span class="p">,</span><span class="k">target</span><span class="p">,</span><span class="w"> </span><span class="k">contiguous</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="p">(..)</span>
 <span class="kt">integer</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span>
 <span class="kt">integer</span><span class="p">,</span><span class="k">pointer</span><span class="w">                         </span><span class="kd">::</span><span class="w"> </span><span class="n">p_b</span><span class="p">(:)</span>
-<span class="w">   </span><span class="c">! NOTE: The assumed rank target is an experimental F202y feature. </span>
-<span class="w">   </span><span class="n">p_b</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span><span class="o">=&gt;</span><span class="n">b</span><span class="w">  </span><span class="c">! will this be allowed outside of SELECT RANK </span>
+<span class="w">   </span><span class="c">! NOTE: The assumed rank target is an experimental F202y feature.</span>
+<span class="w">   </span><span class="n">p_b</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span><span class="o">=&gt;</span><span class="n">b</span><span class="w">  </span><span class="c">! will this be allowed outside of SELECT RANK</span>
 <span class="w">                </span><span class="c">! and work with a scalar?</span>
-<span class="w">   </span><span class="c">! NOTE: Explicit bounds are required. That is, you must </span>
+<span class="w">   </span><span class="c">! NOTE: Explicit bounds are required. That is, you must</span>
 <span class="w">   </span><span class="c">! specify the explicit upper and lower bounds</span>
 <span class="w">   </span><span class="c">! on the left-hand side of the pointer assignment.</span>
 <span class="w">   </span><span class="k">do </span><span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
@@ -442,46 +461,34 @@ with</p>
 
 <h2 id="summary">Summary</h2>
 <p>The <strong>FLATTEN(3)</strong> procedure generically allows for multi-dimensional
-   arrays to be accessed as flattened arrays efficiently without having
-   to copy the data to and from other shapes.</p>
+arrays to be accessed as flattened arrays efficiently without having
+to copy the data to and from other shapes.</p>
 <p>Consider other methods carefully to decide on whether an alternative to
-   <strong>FLATTEN(3C)</strong> is more appropriate:</p>
-<div class="codehilite"><pre><span></span><code><span class="o">+</span><span class="w"> </span><span class="n">elemental</span><span class="w"> </span><span class="n">procedures</span>
-<span class="o">+</span><span class="w"> </span><span class="n">use</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">intrinsics</span><span class="w"> </span><span class="n">such</span><span class="w"> </span><span class="n">as</span><span class="w"> </span><span class="o">**</span><span class="n">RESHAPE</span><span class="p">(</span><span class="mh">3</span><span class="p">),</span><span class="w"> </span><span class="n">PACK</span><span class="p">(</span><span class="mh">3</span><span class="p">),</span><span class="w"> </span><span class="n">UNPACK</span><span class="p">(</span><span class="mh">3</span><span class="p">)</span><span class="o">**</span><span class="p">.</span>
-<span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">legacy</span><span class="p">)</span><span class="w"> </span><span class="n">sequence</span><span class="w"> </span><span class="n">association</span><span class="w"> </span>
-<span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">proposed</span><span class="p">)</span><span class="w"> </span><span class="n">pointer</span><span class="w"> </span><span class="n">assignment</span><span class="w"> </span><span class="n">to</span>
-</code></pre></div>
-
+<strong>FLATTEN(3C)</strong> is more appropriate:</p>
+<ul>
+<li>elemental procedures</li>
+<li>generic procedures</li>
+<li>assumed rank arrays and SELECT CASE.</li>
+<li>You can create a flattened copy of the arrays and pass the temporary
+   and then store it back into the original, which can be lot of overhead.</li>
+<li>use of intrinsics such as <strong>TRANSFER(3) </strong>, <strong>RESHAPE(3), PACK(3), UNPACK(3)</strong>
+   are often useful when transfering data to variables with a different shape.</li>
+<li>(legacy) sequence association.
+   Allowing argument rank mismatch was a de-facto standard behavior but never part of the standard
+   so you generally need a compiler option to allow legacy behavior even if using an assumed size
+   array. Probably should be avoided in new code.</li>
+<li>(proposed) pointer rank remapping to an assumed rank target
+   available on some compilers as an experimental F202Y feature</li>
+</ul>
+<p>For most cases you do not have to do handle very many ranks or types and kinds, so
+generally the standard elemental, generic, and assume rank arrays are more reasonable
+as long as you do not fall into the trap of making an interface for every type and
+rank possible when there are only a few arguments. Where <strong>FLATTEN(3)</strong> is particularly
+useful is when there are many arguments on a procedure, with multiple arguments needing
+to support independent ranks.</p>
 <hr>
-<div class="codehilite"><pre><span></span><code>Allowing this was a de-facto standard behavior but never part of the standard
-so you generally can do this with a compiler option to allow legacy behavior.
-
-A little more standard way is to use sequence association. It is generally
-acceptable to do this with legacy code but is probably frowned upon when
-writing new code.
-
-You can also create a flattened copy of the arrays and pass the temporary
-and then store it back into the original, which can be lot of overhead.
-
-For most cases you do not have to do that many dimensions, so I would
-generally recommend the standard methods, as most (certainly not all
-though) codes use four dimensions or less, or do just a few multi-dimensional
-sizes so in practice they are reasonable methods.
-
-That being said ...
-
-You can use sequence association. Place the &quot;wanted&quot; procedure in a 
-seperate file without an interface, like you often would with F77 code.
-
-Declare the dummy argument dimension with an asterisk (*).
-
-Pass the number of elements as a new argument.
-
-Pass the first element of the array or array section explicitly (known as sequence association).
-
-You might have to add a compiler-specific option depending on how much the
-compiler wants to prevent you from using sequence association.
-</code></pre></div>
+<h2 id="references">References</h2>
+<h2 id="based-on-a-discussion-at-fortran-discourse-10950">Based on a discussion at <a href="https://fortran-lang.discourse.group/t/question-about-elemental-procedures/10950">Fortran Discourse 10950</a></h2>
         </div>
           <div class="col-md-4">
             <div class="card card-body bg-light">
@@ -552,7 +559,7 @@ compiler wants to prevent you from using sequence association.
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-06-06 22:25 +0000             </p>
+ on 2026-06-06 23:13 +0000             </p>
           </div>
         </div>
         <br>
