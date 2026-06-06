@@ -1,13 +1,13 @@
 # M_flatten
 
 The **M_flatten** module provides the procedure **flatten(3)** which
-provides a function that returns a rank one array pointer which 
+provides a function that returns a rank one array pointer which
 points to a scalar or an array of any shape.
 
 ## Calling FLATTEN(3) in the call to the user procedure
 
 To avoid using pointers directly write the called routine to expect a
-flattened array and pass the arguments with varying rank in a call to 
+flattened array and pass the arguments with varying rank in a call to
 FLATTEN(3).
 
 Note that the called procedure WANTED(3) will not know the original rank
@@ -110,10 +110,10 @@ end program elem
 ## Result
 
 ```text
-   a=  1   b0=    1                                 
-   a=  4   b1=    2    3    4                       
-   a=  8   b2=    5    6    7    8                  
-   a=  12  b3=    9   10   11   12                 
+   a=  1   b0=    1
+   a=  4   b1=    2    3    4
+   a=  8   b2=    5    6    7    8
+   a=  12  b3=    9   10   11   12
    a=  4   b4=  -99    1  -99    2   -99    3  -99  4
    a=  4   b4=  -99  -99    1    2   -99  -99    3  4
 ```
@@ -145,10 +145,10 @@ This technique is known as pointer rank remapping (introduced in Fortran
 ## Do you really require something as general as FLATTEN(3)?
 
 ### Elemental procedures
-If you wish to make a procedure that can be called with a specific 
+If you wish to make a procedure that can be called with a specific
 argument having different ranks you can use elemental procedures if
 all the arrays passed are of the same size and all the scalar arguments
-are INTENT(IN). 
+are INTENT(IN).
 
 Since the scalars are not able to be changed this allows for pure procedures
 to be called in parallel where each call to the scalar routine can be made
@@ -238,7 +238,7 @@ contains
 end subroutine wanted
 end program elem
 ```
-## Alternative 1: Allowing argument mismatch and using assumed-size arrays (Fortran 77 Style) 
+## Alternative 1: Allowing argument mismatch and using assumed-size arrays (Fortran 77 Style)
 
 Modern compilers frequently treat rank mismatches as a fatal error
 by default, which frequently impacts legacy Fortran 77 code. It was
@@ -250,7 +250,7 @@ argument in Fortran, you can generally apply a compiler-specific flag to
 bypass the error during compilation or (with most compilers) build the
 routine with no explicit interface in a separate file from the calls to
 the procedure.
-  
+
 Explicit interfaces prevent a number of common errors and are a strongly
 desirable feature, so allowing rank mismatches is not recommended in
 general, but if you are compiling older code and cannot modify the source
@@ -320,10 +320,25 @@ Warning: Rank mismatch in argument ‘b’ at (1) (rank-1 and scalar)
  a=          12 b3=           9          10          11          12
 ```
 
+Generally when using sequence association and rank mismatch:
+
+ + Place the "wanted" procedure in a seperate file without an
+   interface, like you often would with F77 code.
+
+ + Declare the dummy argument dimension with an asterisk (*).
+
+ + Pass the number of elements as a new argument.
+
+ + Pass the first element of the array or array section explicitly
+   (this is the part known as sequence association).
+
+You might have to add a compiler-specific option depending on how much the
+compiler wants to prevent you from using sequence association.
+
 ## Alternative 2: Experimental method proposed for F202Y
 
 Using GNU Fortran (GCC) 16.0.0 20250727 (experimental) and a compiler
-switch to allow using proposed features lets you try a proposed 
+switch to allow using proposed features lets you try a proposed
 feature now that simplifies using assumed rank targets, eliminating
 the SELECT RANK requirement.
 
@@ -355,16 +370,16 @@ contains
 
 subroutine wanted( a, b)
 ! NOTE: This technique uses pointer rank remapping (introduced in
-! Fortran 2003 and expanded in Fortran 2008), which requires the 
+! Fortran 2003 and expanded in Fortran 2008), which requires the
 ! multi-dimensional target array be simply contiguous.
 integer, intent(inout)                  :: a
 integer,target, contiguous, intent(out) :: b(..)
 integer                                 :: n
 integer,pointer                         :: p_b(:)
-   ! NOTE: The assumed rank target is an experimental F202y feature. 
-   p_b(1:n)=>b  ! will this be allowed outside of SELECT RANK 
+   ! NOTE: The assumed rank target is an experimental F202y feature.
+   p_b(1:n)=>b  ! will this be allowed outside of SELECT RANK
                 ! and work with a scalar?
-   ! NOTE: Explicit bounds are required. That is, you must 
+   ! NOTE: Explicit bounds are required. That is, you must
    ! specify the explicit upper and lower bounds
    ! on the left-hand side of the pointer assignment.
    do n=1,size(b)
@@ -377,44 +392,36 @@ end program proposed
 ```
 ## Summary
 
-   The **FLATTEN(3)** procedure generically allows for multi-dimensional
-   arrays to be accessed as flattened arrays efficiently without having
-   to copy the data to and from other shapes.
+The **FLATTEN(3)** procedure generically allows for multi-dimensional
+arrays to be accessed as flattened arrays efficiently without having
+to copy the data to and from other shapes.
 
-   Consider other methods carefully to decide on whether an alternative to
-   **FLATTEN(3C)** is more appropriate:
+Consider other methods carefully to decide on whether an alternative to
+**FLATTEN(3C)** is more appropriate:
 
-    + elemental procedures
-    + use of intrinsics such as **RESHAPE(3), PACK(3), UNPACK(3)**.
-    + (legacy) sequence association 
-    + (proposed) pointer assignment to
+ + elemental procedures
+ + generic procedures
+ + assumed rank arrays and SELECT CASE.
+ + You can create a flattened copy of the arrays and pass the temporary
+   and then store it back into the original, which can be lot of overhead.
+ + use of intrinsics such as **TRANSFER(3) **, **RESHAPE(3), PACK(3), UNPACK(3)**
+   are often useful when transfering data to variables with a different shape.
+ + (legacy) sequence association.
+   Allowing argument rank mismatch was a de-facto standard behavior but never part of the standard
+   so you generally need a compiler option to allow legacy behavior even if using an assumed size
+   array. Probably should be avoided in new code.
+ + (proposed) pointer rank remapping to an assumed rank target
+   available on some compilers as an experimental F202Y feature
+
+For most cases you do not have to do handle very many ranks or types and kinds, so
+generally the standard elemental, generic, and assume rank arrays are more reasonable
+as long as you do not fall into the trap of making an interface for every type and
+rank possible when there are only a few arguments. Where **FLATTEN(3)** is particularly
+useful is when there are many arguments on a procedure, with multiple arguments needing
+to support independent ranks.
+
 ---
+## References
 
-    Allowing this was a de-facto standard behavior but never part of the standard
-    so you generally can do this with a compiler option to allow legacy behavior.
-
-    A little more standard way is to use sequence association. It is generally
-    acceptable to do this with legacy code but is probably frowned upon when
-    writing new code.
-
-    You can also create a flattened copy of the arrays and pass the temporary
-    and then store it back into the original, which can be lot of overhead.
-
-    For most cases you do not have to do that many dimensions, so I would
-    generally recommend the standard methods, as most (certainly not all
-    though) codes use four dimensions or less, or do just a few multi-dimensional
-    sizes so in practice they are reasonable methods.
-
-    That being said ...
-
-    You can use sequence association. Place the "wanted" procedure in a 
-    seperate file without an interface, like you often would with F77 code.
-
-    Declare the dummy argument dimension with an asterisk (*).
-
-    Pass the number of elements as a new argument.
-
-    Pass the first element of the array or array section explicitly (known as sequence association). 
-
-    You might have to add a compiler-specific option depending on how much the
-    compiler wants to prevent you from using sequence association.
+Based on a discussion at [Fortran Discourse 10950](https://fortran-lang.discourse.group/t/question-about-elemental-procedures/10950)
+---
