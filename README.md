@@ -1,7 +1,7 @@
 # M_flatten
 
 The **M_flatten** module provides the procedure **flatten(3)** which
-provides a function that returns pointer which is a rank one array that
+provides a function that returns a rank one array pointer which 
 points to a scalar or an array of any shape.
 
 ## Calling FLATTEN(3) in the call to the user procedure
@@ -12,6 +12,10 @@ FLATTEN(3).
 
 Note that the called procedure WANTED(3) will not know the original rank
 or shape unless it is passed, but will know the size of the input array.
+
+The argument to **FLATTEN(3)** should be a whole contiguous array. A
+slice or subsection would almost certaining just create and alter a
+temporary.
 
 ```fortran
 program demo_M_flatten
@@ -62,7 +66,7 @@ argument with RANK(3) and SHAPE(3) not just SIZE(3).
 program elem
 implicit none
 integer :: a
-integer :: b0, b1(-1:1), b2(2,2), b3(2,2,1)
+integer :: b0, b1(-1:1), b2(2,2), b3(2,2,1), b4(2,2,2)
 
    a=0
    call wanted ( a, b0 )
@@ -73,6 +77,16 @@ integer :: b0, b1(-1:1), b2(2,2), b3(2,2,1)
    print *, 'a=', a, 'b2=', b2
    call wanted ( a, b3 )
    print *, 'a=', a, 'b3=', b3
+
+   a=0
+   b4=-99
+   call wanted ( a, b4(2,:,:) )
+   print *, 'a=', a, 'b4=', b4
+
+   a=0
+   b4=-99
+   call wanted ( a, b4(:,2,:) )
+   print *, 'a=', a, 'b4=', b4
 
 contains
 
@@ -96,10 +110,12 @@ end program elem
 ## Result
 
 ```text
- a=           1 b0=           1
- a=           4 b1=           2           3           4
- a=           8 b2=           5           6           7           8
- a=          12 b3=           9          10          11          12
+   a=  1   b0=    1                                 
+   a=  4   b1=    2    3    4                       
+   a=  8   b2=    5    6    7    8                  
+   a=  12  b3=    9   10   11   12                 
+   a=  4   b4=  -99    1  -99    2   -99    3  -99  4
+   a=  4   b4=  -99  -99    1    2   -99  -99    3  4
 ```
 ### A single-dimension array pointer can point to a multi-dimensional array?
 
@@ -175,8 +191,8 @@ program elem
 contains
 
    subroutine wanted( a, b )
-      integer, intent(inout) :: a
-      integer, intent(out)   :: b(..)
+      integer, intent(inout)           :: a
+      integer, contiguous, intent(out) :: b(..)
 
       integer :: i, j, k
 

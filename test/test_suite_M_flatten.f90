@@ -1,12 +1,12 @@
 program runtest
 use,intrinsic :: iso_c_binding, only: c_int, c_char, c_null_char
-use, intrinsic :: iso_fortran_env, only : stdout=>OUTPUT_UNIT, stderr=>ERROR_UNIT
+use,intrinsic :: iso_fortran_env, only : stdout=>OUTPUT_UNIT, stderr=>ERROR_UNIT
 use M_framework, only : unit_test, unit_test_end, unit_test_mode
 use M_framework, only : unit_test_start, unit_test_msg, unit_test_level
 use M_framework, only : unit_test_stop
-use M_framework, only: str
+use M_framework, only : str
 
-use M_flatten,  only: flatten
+use M_flatten,   only : flatten
 implicit none
 logical, parameter :: T=.true., F=.false.
 integer,parameter  :: dp=kind(0.0d0)
@@ -36,7 +36,7 @@ subroutine test_flatten()
 integer,allocatable   :: expected(:)
 integer,allocatable   :: returned(:)
 integer :: a
-integer :: b0, b1(-1:1), b2(2,2), b3(2,2,1)
+integer :: b0, b1(-1:1), b2(2,2), b3(2,2,1), b4(2,2,2)
 
    call unit_test_start('flatten        ','scalar test')
 
@@ -48,10 +48,25 @@ integer :: b0, b1(-1:1), b2(2,2), b3(2,2,1)
    call unit_test('flatten',all(b1==expected) ,"rank one",str(b1))
    expected=[5,6,7,8]
    call wanted ( a, b2 )
-   call unit_test('flatten',all(pack(b2,.true.)==expected) ,"rank two",str(pack(b2,.true.)))
+   call unit_test('flatten',all(pack(b2,T)==expected) ,"rank two",str(pack(b2,T)))
    expected=[9,10,11,12]
    call wanted ( a, b3 )
-   call unit_test('flatten',all(pack(b3,.true.)==expected) ,"rank three",str(pack(b3,.true.)))
+   call unit_test('flatten',all(pack(b3,T)==expected) ,"rank three",str(pack(b3,T)))
+
+   a=0
+   expected=[1,2,3,4,5,6,7,8]
+   call wanted ( a, b4 )
+   call unit_test('flatten',all(pack(b4,T)==expected) ,"rank 2x2x2",str(pack(b4,T)))
+   a=0
+   b4=-99
+   expected=[-99,1,-99,2,-99,3,-99,4]
+   call wanted ( a, b4(2,:,:) )
+   call unit_test('flatten',all(pack(b4,T)==expected) ,"rank 2x2x2 (2,:,:)",str(pack(b4,T)))
+   a=0
+   b4=-99
+   expected=[-99,-99,1,2,-99,-99,3,4]
+   call wanted ( a, b4(:,2,:) )
+   call unit_test('flatten',all(pack(b4,T)==expected) ,"rank 2x2x2 (:,2,:)",str(pack(b4,T)))
 
    ! Alternatively, to avoid using pointers directly
    ! write the called routine to expect a flattened
@@ -65,10 +80,33 @@ integer :: b0, b1(-1:1), b2(2,2), b3(2,2,1)
    call unit_test('flatten',all(b1==expected) ,"rank one",str(b1))
    expected=[5,6,7,8]
    call wanted1 ( a, flatten(b2) )
-   call unit_test('flatten',all(pack(b2,.true.)==expected) ,"rank two",str(pack(b2,.true.)))
+   call unit_test('flatten',all(pack(b2,T)==expected) ,"rank two",str(pack(b2,T)))
    expected=[9,10,11,12]
    call wanted1 ( a, flatten(b3) )
-   call unit_test('flatten',all(pack(b3,.true.)==expected) ,"rank three",str(pack(b3,.true.)))
+   call unit_test('flatten',all(pack(b3,T)==expected) ,"rank three",str(pack(b3,T)))
+
+   a=0
+   expected=[1,2,3,4,5,6,7,8]
+   call wanted1 ( a, flatten(b4) )
+   call unit_test('flatten',all(pack(b4,T)==expected) ,"rank 2x2x2",str(pack(b4,T)))
+
+   ! a call like call wanted1 ( a, flatten(b4(2,:,:)) ) would create and change a temporary, not the desired values
+   ! so have to copy values to change into an array that can be passed directory and then disperse the returned 
+   ! values into the selected positions
+   a=0
+   b4=-99
+   expected=[-99,1,-99,2,-99,3,-99,4]
+   b2=b4(2,:,:)
+   call wanted1 ( a, flatten(b2) )
+   b4(2,:,:)=b2
+   call unit_test('flatten',all(pack(b4,T)==expected) ,"rank 2x2x2 (2,:,:)",str(pack(b4,T)))
+   a=0
+   b4=-99
+   expected=[-99,-99,1,2,-99,-99,3,4]
+   b2=b4(:,2,:)
+   call wanted1 ( a, flatten(b2) )
+   b4(:,2,:)=b2
+   call unit_test('flatten',all(pack(b4,T)==expected) ,"rank 2x2x2 (:,2,:)",str(pack(b4,T)))
 
    call unit_test_end('flatten')
 
@@ -98,6 +136,5 @@ integer,pointer                         :: p_b(:)
    enddo
 end subroutine wanted
 !TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
-
 end program runtest
 !TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
