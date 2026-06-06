@@ -421,7 +421,9 @@ useful is when there are many arguments on a procedure, with multiple arguments 
 to support independent ranks.
 
 ---
+
 ## References
 
 Based on a discussion at [Fortran Discourse 10950](https://fortran-lang.discourse.group/t/question-about-elemental-procedures/10950)
+
 ---
