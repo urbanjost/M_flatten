@@ -88,20 +88,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 5.0% of total for procedures.">9 statements</a>
+                 title="20.6% of total for procedures.">37 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/alt1.f90"> Source File</a>
+              <a href="../src/alt4.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/alt1.f90.html'>alt1.f90</a></li>
-                <li class="breadcrumb-item"><a href='../program/demo_m_flatten.html'>demo_M_flatten</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/alt4.f90.html'>alt4.f90</a></li>
+                <li class="breadcrumb-item"><a href='../program/elem~3.html'>elem</a></li>
             <li class="breadcrumb-item active" aria-current="page">wanted</li>
           </ol>
         </nav>
@@ -130,7 +130,9 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../proc/wanted~3.html#variable-i~3">i</a>
+            <a class="list-group-item" href="../proc/wanted~3.html#variable-i~4">i</a>
+            <a class="list-group-item" href="../proc/wanted~3.html#variable-j">j</a>
+            <a class="list-group-item" href="../proc/wanted~3.html#variable-k">k</a>
         </div>
       </div>
     </div>
@@ -185,7 +187,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~6"></span>
+              <span class="anchor" id="variable-a~7"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -200,7 +202,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~3"></span>
+              <span class="anchor" id="variable-b~4"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -208,7 +210,7 @@
               
             </td>
             <td>::</td>
-            <td><strong>b</strong>(:)</td>
+            <td><strong>b</strong>(..)</td>
             <td>
                 
             </td>
@@ -233,7 +235,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~3"></span>
+              <span class="anchor" id="variable-i~4"></span>
               integer,
             </td>
               <td>public</td>
@@ -242,6 +244,40 @@
             </td>
             <td>::</td>
             <td><strong>i</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-j"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>j</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-k"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>k</strong></td>
                 <td></td>
                 <td></td>
             <td>
@@ -264,14 +300,51 @@
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="k">subroutine </span><span class="n">wanted</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span>
-<span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span>
-<span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="p">(:)</span>
-<span class="kt">integer</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
-<span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">subroutine </span><span class="n">wanted</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="p">)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="p">(..)</span>
+
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">k</span>
+
+<span class="w">      </span><span class="k">select </span><span class="n">rank</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="w">      </span><span class="n">rank</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="w">      </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">      </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span>
-<span class="w">   </span><span class="k">enddo</span>
+<span class="w">      </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span>
+
+<span class="w">      </span><span class="n">rank</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="w">         </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">         </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span>
+<span class="w">      </span><span class="k">enddo</span>
+
+<span class="k">      </span><span class="n">rank</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">      </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="nb">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">         </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">            </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">            </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span>
+<span class="w">         </span><span class="k">enddo</span>
+<span class="k">      enddo</span>
+
+<span class="k">      </span><span class="n">rank</span><span class="w"> </span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">      </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="nb">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">         </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="nb">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">            </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">               </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">               </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span>
+<span class="w">            </span><span class="k">enddo</span>
+<span class="k">         enddo</span>
+<span class="k">      enddo</span>
+
+<span class="k">      </span><span class="n">rank</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;assumed size is unsupported&#39;</span>
+<span class="w">      </span><span class="k">stop </span><span class="mi">1</span>
+
+<span class="w">      </span><span class="n">rank</span><span class="w"> </span><span class="n">default</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w">  </span><span class="s1">&#39;unsupported rank&#39;</span>
+<span class="w">      </span><span class="k">stop </span><span class="mi">2</span>
+
+<span class="w">   </span><span class="k">end select</span>
+
 <span class="k">end subroutine </span><span class="n">wanted</span>
 </pre></div>
 
@@ -296,7 +369,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-06-06 23:22 +0000             </p>
+ on 2026-06-06 23:52 +0000             </p>
           </div>
         </div>
         <br>
