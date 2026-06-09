@@ -110,7 +110,7 @@
 !! provides a function that returns a rank one array pointer which
 !! points to a scalar or an array of any shape.
 !!
-!!    CALLING FLATTEN IN THE CALL TO THE USER PROCEDURE
+!! ## Calling FLATTEN(3) in the call to the user procedure
 !!
 !! To avoid using pointers directly write the called routine to expect a
 !! flattened array and pass the arguments with varying rank in a call to
@@ -159,7 +159,7 @@
 !!     a=      8 b2=      5      6      7      8
 !!     a=     12 b3=      9     10     11     12
 !!
-!!    CALLING FLATTEN IN THE USER PROCEDURE
+!! Calling FLATTEN(3) in the user procedure
 !!
 !! A minor use of pointers is required in this alternate use of
 !! FLATTEN(3) but the called routine can query the original input
@@ -341,12 +341,8 @@
 !!     end subroutine wanted
 !!     end program elem
 !!
-!!##ALTERNATIVE I
-!!
-!!  ARGUMENT MISMATCH
-!!
-!! This alternative method allows
-!! argument mismatch and using assumed-size arrays (Fortran 77 Style)
+!!##ALTERNATIVE 1:
+!! Allowing argument mismatch and using assumed-size arrays (Fortran 77 Style)
 !!
 !! Modern compilers frequently treat rank mismatches as a fatal error
 !! by default, which frequently impacts legacy Fortran 77 code. It was
@@ -440,10 +436,7 @@
 !! You might have to add a compiler-specific option depending on how much the
 !! compiler wants to prevent you from using sequence association.
 !!
-!!
-!!##ALTERNATIVE II
-!!
-!!  USING EXPERIMENTAL PROPOSED METHOD
+!! ## Alternative 2: Experimental method proposed for F202Y
 !!
 !! Using GNU Fortran (GCC) 16.0.0 20250727 (experimental) and a compiler
 !! switch to allow using proposed features lets you try a proposed
@@ -457,8 +450,6 @@
 !! with
 !!
 !!     gfortran -std=f202y  point.f90
-!!
-!! Sample using proposed F202y feature
 !!
 !!       program proposed
 !!       implicit none
