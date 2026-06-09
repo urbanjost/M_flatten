@@ -27,7 +27,7 @@
 !!##EXAMPLES
 !!
 !!
-!!  Sample program:
+!!Sample program:
 !!
 !!    program demo_M_flatten
 !!    use M_flatten, only : flatten
@@ -91,18 +91,18 @@
 !!
 !!    end program demo_M_flatten
 !!
-!!   Results:
+!!Results:
 !!
-!!    >  WANTED:
-!!    >  a=           1 b0=  1
-!!    >  a=           4 b1=  2    3       4
-!!    >  a=           8 b2=  5    6       7       8
-!!    >  a=          12 b3=  9   10      11      12
-!!    >  WANTED1:
-!!    >  a=           1 b0=  1
-!!    >  a=           4 b1=  2    3       4
-!!    >  a=           8 b2=  5    6       7       8
-!!    >  a=          12 b3=  9   10      11      12
+!!       >  WANTED:
+!!       >  a=           1 b0=  1
+!!       >  a=           4 b1=  2    3       4
+!!       >  a=           8 b2=  5    6       7       8
+!!       >  a=          12 b3=  9   10      11      12
+!!       >  WANTED1:
+!!       >  a=           1 b0=  1
+!!       >  a=           4 b1=  2    3       4
+!!       >  a=           8 b2=  5    6       7       8
+!!       >  a=          12 b3=  9   10      11      12
 !!
 !!##DETAILS
 !!
@@ -152,12 +152,12 @@
 !!       end subroutine wanted
 !!       end program arg
 !!
-!!   Result
+!!Result
 !!
-!!     a=      1 b0=      1
-!!     a=      4 b1=      2      3      4
-!!     a=      8 b2=      5      6      7      8
-!!     a=     12 b3=      9     10     11     12
+!!       a=      1 b0=      1
+!!       a=      4 b1=      2      3      4
+!!       a=      8 b2=      5      6      7      8
+!!       a=     12 b3=      9     10     11     12
 !!
 !! Calling FLATTEN(3) in the user procedure
 !!
@@ -209,7 +209,7 @@
 !!
 !!       end program elem
 !!
-!!  Result
+!!Result
 !!
 !!    a=  1   b0=    1
 !!    a=  4   b1=    2    3    4
@@ -276,22 +276,22 @@
 !! to catch the assumed size case and treat it specially; in the following
 !! code it just writes a message saying it is unsupported.
 !!
-!!    program elem
-!!       implicit none
-!!       integer :: a
-!!       integer :: b0, b1(-1:1), b2(2,2), b3(2,2,1)
+!!     program elem
+!!        implicit none
+!!        integer :: a
+!!        integer :: b0, b1(-1:1), b2(2,2), b3(2,2,1)
 !!
-!!       a=0
-!!       call wanted( a, b0 )
-!!       print *, 'a=', a, 'b0=', b0
-!!       call wanted( a, b1 )
-!!       print *, 'a=', a, 'b1=', b1
-!!       call wanted( a, b2 )
-!!       print *, 'a=', a, 'b2=', b2
-!!       call wanted( a, b3 )
-!!       print *, 'a=', a, 'b3=', b3
+!!        a=0
+!!        call wanted( a, b0 )
+!!        print *, 'a=', a, 'b0=', b0
+!!        call wanted( a, b1 )
+!!        print *, 'a=', a, 'b1=', b1
+!!        call wanted( a, b2 )
+!!        print *, 'a=', a, 'b2=', b2
+!!        call wanted( a, b3 )
+!!        print *, 'a=', a, 'b3=', b3
 !!
-!!    contains
+!!     contains
 !!
 !!       subroutine wanted( a, b )
 !!          integer, intent(inout)           :: a
@@ -336,10 +336,10 @@
 !!          print *,  'unsupported rank'
 !!          stop 2
 !!
-!!       end select
+!!        end select
 !!
-!!     end subroutine wanted
-!!     end program elem
+!!      end subroutine wanted
+!!      end program elem
 !!
 !!##ALTERNATIVE 1:
 !! Allowing argument mismatch and using assumed-size arrays (Fortran 77 Style)
@@ -377,49 +377,49 @@
 !!  * Pass the first element of the array or array section explicitly
 !!    (known as _sequence association_).
 !!
-!!       program arbitrary
-!!       implicit none
-!!       integer :: a
-!!       integer :: b0, b1(-1:1), b2(2,2), b3(2,2,1)
-!!       external wanted
+!!        program arbitrary
+!!        implicit none
+!!        integer :: a
+!!        integer :: b0, b1(-1:1), b2(2,2), b3(2,2,1)
+!!        external wanted
 !!
-!!          a=0
-!!          call wanted ( a, b0 ,1)
-!!          print *, 'a=', a, 'b0=', b0
-!!          call wanted ( a, b1 ,size(b1))
-!!          print *, 'a=', a, 'b0=', b1
-!!          call wanted ( a, b2 ,size(b2))
-!!          print *, 'a=', a, 'b0=', b2
-!!          call wanted ( a, b3 ,size(b3))
-!!          print *, 'a=', a, 'b0=', b3
-!!       contains
+!!           a=0
+!!           call wanted ( a, b0 ,1)
+!!           print *, 'a=', a, 'b0=', b0
+!!           call wanted ( a, b1 ,size(b1))
+!!           print *, 'a=', a, 'b0=', b1
+!!           call wanted ( a, b2 ,size(b2))
+!!           print *, 'a=', a, 'b0=', b2
+!!           call wanted ( a, b3 ,size(b3))
+!!           print *, 'a=', a, 'b0=', b3
+!!        contains
 !!
-!!       end program arbitrary
+!!        end program arbitrary
 !!
-!!       subroutine wanted( a, b, n )
-!!       integer, intent(inout) :: a
-!!       integer, intent(out)   :: b(*)
-!!       integer, intent(in)    :: n
-!!       integer                :: i
-!!          do i=1,n
-!!             a = a + 1
-!!             b(i) = a
-!!          enddo
-!!       end subroutine wanted
+!!        subroutine wanted( a, b, n )
+!!        integer, intent(inout) :: a
+!!        integer, intent(out)   :: b(*)
+!!        integer, intent(in)    :: n
+!!        integer                :: i
+!!           do i=1,n
+!!              a = a + 1
+!!              b(i) = a
+!!           enddo
+!!        end subroutine wanted
 !!
 !!
-!!       $ gfortran arbitrary.f90 -fallow-argument-mismatch -o arbitrary
-!!       arbitrary.f90:8:20:
+!!        $ gfortran arbitrary.f90 -fallow-argument-mismatch -o arbitrary
+!!        arbitrary.f90:8:20:
 !!
-!!       8 |    call wanted ( a, b0 ,1)
-!!         |                    1
-!!       Warning: Rank mismatch in argument ‘b’ at (1) (rank-1 and scalar)
+!!        8 |    call wanted ( a, b0 ,1)
+!!          |                    1
+!!        Warning: Rank mismatch in argument ‘b’ at (1) (rank-1 and scalar)
 !!
-!!       ./arbitrary
-!!        a=       1 b0=       1
-!!        a=       4 b1=       2       3       4
-!!        a=       8 b2=       5       6       7       8
-!!        a=      12 b3=       9      10      11      12
+!!        ./arbitrary
+!!         a=       1 b0=       1
+!!         a=       4 b1=       2       3       4
+!!         a=       8 b2=       5       6       7       8
+!!         a=      12 b3=       9      10      11      12
 !!
 !! Generally when using sequence association and rank mismatch:
 !!
@@ -451,44 +451,44 @@
 !!
 !!     gfortran -std=f202y  point.f90
 !!
-!!       program proposed
-!!       implicit none
-!!       integer :: a
-!!       integer :: b0, b1(-1:1), b2(2,2), b3(2,2,1)
+!!        program proposed
+!!        implicit none
+!!        integer :: a
+!!        integer :: b0, b1(-1:1), b2(2,2), b3(2,2,1)
 !!
-!!          a=0
-!!          call wanted ( a, b0 )
-!!          print *, 'a=', a, 'b0=', b0
-!!          call wanted ( a, b1 )
-!!          print *, 'a=', a, 'b1=', b1
-!!          call wanted ( a, b2 )
-!!          print *, 'a=', a, 'b2=', b2
-!!          call wanted ( a, b3 )
-!!          print *, 'a=', a, 'b3=', b3
+!!           a=0
+!!           call wanted ( a, b0 )
+!!           print *, 'a=', a, 'b0=', b0
+!!           call wanted ( a, b1 )
+!!           print *, 'a=', a, 'b1=', b1
+!!           call wanted ( a, b2 )
+!!           print *, 'a=', a, 'b2=', b2
+!!           call wanted ( a, b3 )
+!!           print *, 'a=', a, 'b3=', b3
 !!
-!!       contains
+!!        contains
 !!
-!!       subroutine wanted( a, b)
-!!       ! NOTE: This technique uses pointer rank remapping (introduced in
-!!       ! Fortran 2003 and expanded in Fortran 2008), which requires the
-!!       ! multi-dimensional target array be simply contiguous.
-!!       integer, intent(inout)                  :: a
-!!       integer,target, contiguous, intent(out) :: b(..)
-!!       integer                                 :: n
-!!       integer,pointer                         :: p_b(:)
-!!          ! NOTE: The assumed rank target is an experimental F202y feature.
-!!          p_b(1:n)=>b  ! will this be allowed outside of SELECT RANK
-!!                       ! and work with a scalar?
-!!          ! NOTE: Explicit bounds are required. That is, you must
-!!          ! specify the explicit upper and lower bounds
-!!          ! on the left-hand side of the pointer assignment.
-!!          do n=1,size(b)
-!!             a = a + 1
-!!             p_b(n) = a
-!!          enddo
-!!       end subroutine wanted
+!!        subroutine wanted( a, b)
+!!        ! NOTE: This technique uses pointer rank remapping (introduced in
+!!        ! Fortran 2003 and expanded in Fortran 2008), which requires the
+!!        ! multi-dimensional target array be simply contiguous.
+!!        integer, intent(inout)                  :: a
+!!        integer,target, contiguous, intent(out) :: b(..)
+!!        integer                                 :: n
+!!        integer,pointer                         :: p_b(:)
+!!           ! NOTE: The assumed rank target is an experimental F202y feature.
+!!           p_b(1:n)=>b  ! will this be allowed outside of SELECT RANK
+!!                        ! and work with a scalar?
+!!           ! NOTE: Explicit bounds are required. That is, you must
+!!           ! specify the explicit upper and lower bounds
+!!           ! on the left-hand side of the pointer assignment.
+!!           do n=1,size(b)
+!!              a = a + 1
+!!              p_b(n) = a
+!!           enddo
+!!        end subroutine wanted
 !!
-!!       end program proposed
+!!        end program proposed
 !!
 !!##SUMMARY
 !!
@@ -681,18 +681,18 @@ contains
 !!      !
 !!      end program demo_flatten
 !!
-!!   Results:
+!! Results:
 !!
-!!    >  WANTED:
-!!    >  a=           1 b0=  1
-!!    >  a=           4 b1=  2    3       4
-!!    >  a=           8 b2=  5    6       7       8
-!!    >  a=          12 b3=  9   10      11      12
-!!    >  WANTED1:
-!!    >  a=           1 b0=  1
-!!    >  a=           4 b1=  2    3       4
-!!    >  a=           8 b2=  5    6       7       8
-!!    >  a=          12 b3=  9   10      11      12
+!!     >  WANTED:
+!!     >  a=           1 b0=  1
+!!     >  a=           4 b1=  2    3       4
+!!     >  a=           8 b2=  5    6       7       8
+!!     >  a=          12 b3=  9   10      11      12
+!!     >  WANTED1:
+!!     >  a=           1 b0=  1
+!!     >  a=           4 b1=  2    3       4
+!!     >  a=           8 b2=  5    6       7       8
+!!     >  a=          12 b3=  9   10      11      12
 !!
 !!##AUTHOR
 !!     John S. Urban
