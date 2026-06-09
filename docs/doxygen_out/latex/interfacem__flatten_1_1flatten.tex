@@ -1,6 +1,6 @@
-\doxysection{m\+\_\+flatten\+::flatten Interface Reference}
-\hypertarget{interfacem__flatten_1_1flatten}{}\label{interfacem__flatten_1_1flatten}\index{m\_flatten::flatten@{m\_flatten::flatten}}
-\doxysubsubsection*{Public Member Functions}
+\hypertarget{interfacem__flatten_1_1flatten}{}\doxysection{m\+\_\+flatten\+::flatten Interface Reference}
+\label{interfacem__flatten_1_1flatten}\index{m\_flatten::flatten@{m\_flatten::flatten}}
+\doxysubsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 integer(kind=int32) function, dimension(\+:), pointer \mbox{\hyperlink{interfacem__flatten_1_1flatten_a7e987984ff9be2e8e22263040230102f}{flatten\+\_\+int32}} (arr)
@@ -14,32 +14,131 @@ real(kind=real64) function, dimension(\+:), pointer \mbox{\hyperlink{interfacem_
 
 
 \doxysubsection{Member Function/\+Subroutine Documentation}
-\Hypertarget{interfacem__flatten_1_1flatten_a7e987984ff9be2e8e22263040230102f}\index{m\_flatten::flatten@{m\_flatten::flatten}!flatten\_int32@{flatten\_int32}}
+\mbox{\Hypertarget{interfacem__flatten_1_1flatten_a7e987984ff9be2e8e22263040230102f}\label{interfacem__flatten_1_1flatten_a7e987984ff9be2e8e22263040230102f}} 
+\index{m\_flatten::flatten@{m\_flatten::flatten}!flatten\_int32@{flatten\_int32}}
 \index{flatten\_int32@{flatten\_int32}!m\_flatten::flatten@{m\_flatten::flatten}}
 \doxysubsubsection{\texorpdfstring{flatten\_int32()}{flatten\_int32()}}
-{\footnotesize\ttfamily \label{interfacem__flatten_1_1flatten_a7e987984ff9be2e8e22263040230102f} 
-integer(kind=int32) function, dimension(\+:), pointer m\+\_\+flatten\+::flatten\+::flatten\+\_\+int32 (\begin{DoxyParamCaption}\item[{integer(kind=int32), dimension(..), target, contiguous}]{arr}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily integer(kind=int32) function, dimension(\+:), pointer m\+\_\+flatten\+::flatten\+::flatten\+\_\+int32 (\begin{DoxyParamCaption}\item[{integer(kind=int32), dimension(..), target, contiguous}]{arr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
-\Hypertarget{interfacem__flatten_1_1flatten_a0efeb41edef26c46c1885b1eab430d99}\index{m\_flatten::flatten@{m\_flatten::flatten}!flatten\_int64@{flatten\_int64}}
+\hypertarget{namespacem__flatten_autotoc_md12}{}\doxysubsubsection{N\+A\+ME}\label{namespacem__flatten_autotoc_md12}
+flatten(3f) -\/ \mbox{[}M\+\_\+flatten\+::array\mbox{]} Module for dealing with argument rank mismatch (L\+I\+C\+E\+N\+SE\+:M\+IT)\hypertarget{namespacem__flatten_autotoc_md13}{}\doxysubsubsection{S\+Y\+N\+O\+P\+S\+IS}\label{namespacem__flatten_autotoc_md13}
+\begin{DoxyVerb}function flatten(a) result(b)
+
+ integer(kind=int32),intent(in),contiguous,target :: a(..)
+ ! or
+ integer(kind=int64),intent(in),contiguous,target :: a(..)
+ ! or
+ real(kind=real32),intent(in),contiguous,target   :: a(..)
+ ! or
+ real(kind=real64),intent(in),contiguous,target   :: a(..)
+
+ type(TYPE,kind=KIND),pointer,intent(out) :: b(:)
+\end{DoxyVerb}
+\hypertarget{namespacem__flatten_autotoc_md14}{}\doxysubsubsection{C\+H\+A\+R\+A\+C\+T\+E\+R\+I\+S\+T\+I\+CS}\label{namespacem__flatten_autotoc_md14}
+\begin{DoxyVerb} The type of the returned pointer is the same type as the input
+ parameter A.
+\end{DoxyVerb}
+\hypertarget{namespacem__flatten_autotoc_md15}{}\doxysubsubsection{D\+E\+S\+C\+R\+I\+P\+T\+I\+ON}\label{namespacem__flatten_autotoc_md15}
+F\+L\+A\+T\+T\+E\+N(3) returns a rank one array pointer to a scalar or multi-\/dimensional array
+
+Standard methods for passing arguments of different rank are suitable for many cases but when procedures have many arguments with independently variable ranks techniques such as generic procedures can require excessive duplication.
+
+The F\+L\+A\+T\+T\+E\+N(3) procedure provided here can simply such interfaces particularly when contiguous data is being passed.
+
+The M\+\_\+flatten module provides the procedure F\+L\+A\+T\+T\+E\+N(3) which provides a function that returns a rank one array pointer which points to a scalar or an array of any shape.
+
+The F\+L\+A\+T\+T\+E\+N(3) procedure generically allows for multi-\/dimensional arrays to be accessed as flattened arrays efficiently without having to copy the data to and from other shapes.
+
+Consider other methods carefully to decide on whether an alternative to F\+L\+A\+T\+T\+E\+N(3) is more appropriate\+:
+
+o elemental procedures o generic procedures o assumed rank arrays and S\+E\+L\+E\+CT C\+A\+SE. o You can create a flattened copy of the arrays and pass the temporary and then store it back into the original, which can be lot of overhead. o use of intrinsics such as T\+R\+A\+N\+S\+F\+E\+R(3), R\+E\+S\+H\+A\+P\+E(3), P\+A\+C\+K(3), U\+N\+P\+A\+C\+K(3) are often useful when transfering data to variables with a different shape. o (legacy) sequence association. Allowing argument rank mismatch was a de-\/facto standard behavior but never part of the standard so you generally need a compiler option to allow legacy behavior even if using an assumed size array. Probably should be avoided in new code. o (proposed) pointer rank remapping to an assumed rank target available on some compilers as an experimental F202Y feature
+
+For most cases you do not have to do handle very many ranks or types and kinds, so generally the standard elemental, generic, and assume rank arrays are more reasonable as long as you do not fall into the trap of making an interface for every type and rank possible when there are only a few arguments. Where F\+L\+A\+T\+T\+E\+N(3) is particularly useful is when there are many arguments on a procedure, with multiple arguments needing to support independent ranks.\hypertarget{namespacem__flatten_autotoc_md16}{}\doxysubsubsection{E\+X\+A\+M\+P\+L\+ES}\label{namespacem__flatten_autotoc_md16}
+Sample program\+: \begin{DoxyVerb}program demo_flatten
+use M_flatten, only : flatten
+implicit none
+integer :: a
+integer :: b0, b1(-1:1), b2(2,2), b3(2,2,1)
+   !
+   write(*,*)'WANTED:'
+   a=0
+   call wanted ( a, b0 )
+   print *, 'a=', a, 'b0=', b0
+   call wanted ( a, b1 )
+   print *, 'a=', a, 'b1=', b1
+   call wanted ( a, b2 )
+   print *, 'a=', a, 'b2=', b2
+   call wanted ( a, b3 )
+   print *, 'a=', a, 'b3=', b3
+   !
+   write(*,*)'WANTED1:'
+   ! Alternatively, to avoid using pointers directly
+   ! write the called routine to expect a flattened
+   ! array and call the argument with flatten().
+   !
+   a=0
+   call wanted1 ( a, flatten(b0) )
+   print *, 'a=', a, 'b0=', b0
+   call wanted1 ( a, flatten(b1) )
+   print *, 'a=', a, 'b1=', b1
+   call wanted1 ( a, flatten(b2) )
+   print *, 'a=', a, 'b2=', b2
+   call wanted1 ( a, flatten(b3) )
+   print *, 'a=', a, 'b3=', b3
+contains
+subroutine wanted1( a, b)
+integer, intent(inout) :: a
+integer, intent(out)   :: b(:)
+integer                :: i
+   do i=1,size(b)
+      a = a + 1
+      b(i) = a
+   enddo
+end subroutine wanted1
+!
+subroutine wanted( a, b)
+! This technique is known as pointer rank remapping (introduced in
+! Fortran 2003 and expanded in Fortran 2008).
+! requires the multi-dimensional target array is simply contiguous.
+integer, intent(inout)                  :: a
+integer,target, contiguous, intent(out) :: b(..)
+integer                                 :: i
+integer,pointer                         :: p_b(:)
+   p_b=>flatten(b)
+   do i=1,size(b)
+      a = a + 1
+      p_b(i) = a
+   enddo
+end subroutine wanted
+!
+end program demo_flatten
+\end{DoxyVerb}
+
+
+Results\+:
+
+$>$ W\+A\+N\+T\+ED\+: $>$ a= 1 b0= 1 $>$ a= 4 b1= 2 3 4 $>$ a= 8 b2= 5 6 7 8 $>$ a= 12 b3= 9 10 11 12 $>$ W\+A\+N\+T\+E\+D1\+: $>$ a= 1 b0= 1 $>$ a= 4 b1= 2 3 4 $>$ a= 8 b2= 5 6 7 8 $>$ a= 12 b3= 9 10 11 12\hypertarget{namespacem__flatten_autotoc_md17}{}\doxysubsubsection{A\+U\+T\+H\+OR}\label{namespacem__flatten_autotoc_md17}
+John S. Urban\hypertarget{namespacem__flatten_autotoc_md18}{}\doxysubsubsection{L\+I\+C\+E\+N\+SE}\label{namespacem__flatten_autotoc_md18}
+M\+IT \mbox{\Hypertarget{interfacem__flatten_1_1flatten_a0efeb41edef26c46c1885b1eab430d99}\label{interfacem__flatten_1_1flatten_a0efeb41edef26c46c1885b1eab430d99}} 
+\index{m\_flatten::flatten@{m\_flatten::flatten}!flatten\_int64@{flatten\_int64}}
 \index{flatten\_int64@{flatten\_int64}!m\_flatten::flatten@{m\_flatten::flatten}}
 \doxysubsubsection{\texorpdfstring{flatten\_int64()}{flatten\_int64()}}
-{\footnotesize\ttfamily \label{interfacem__flatten_1_1flatten_a0efeb41edef26c46c1885b1eab430d99} 
-integer(kind=int64) function, dimension(\+:), pointer m\+\_\+flatten\+::flatten\+::flatten\+\_\+int64 (\begin{DoxyParamCaption}\item[{integer(kind=int64), dimension(..), target, contiguous}]{arr}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily integer(kind=int64) function, dimension(\+:), pointer m\+\_\+flatten\+::flatten\+::flatten\+\_\+int64 (\begin{DoxyParamCaption}\item[{integer(kind=int64), dimension(..), target, contiguous}]{arr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
-\Hypertarget{interfacem__flatten_1_1flatten_a33fdf95c565d2da36bf9695b69176fe9}\index{m\_flatten::flatten@{m\_flatten::flatten}!flatten\_real32@{flatten\_real32}}
+\mbox{\Hypertarget{interfacem__flatten_1_1flatten_a33fdf95c565d2da36bf9695b69176fe9}\label{interfacem__flatten_1_1flatten_a33fdf95c565d2da36bf9695b69176fe9}} 
+\index{m\_flatten::flatten@{m\_flatten::flatten}!flatten\_real32@{flatten\_real32}}
 \index{flatten\_real32@{flatten\_real32}!m\_flatten::flatten@{m\_flatten::flatten}}
 \doxysubsubsection{\texorpdfstring{flatten\_real32()}{flatten\_real32()}}
-{\footnotesize\ttfamily \label{interfacem__flatten_1_1flatten_a33fdf95c565d2da36bf9695b69176fe9} 
-real(kind=real32) function, dimension(\+:), pointer m\+\_\+flatten\+::flatten\+::flatten\+\_\+real32 (\begin{DoxyParamCaption}\item[{real(kind=real32), dimension(..), target, contiguous}]{arr}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily real(kind=real32) function, dimension(\+:), pointer m\+\_\+flatten\+::flatten\+::flatten\+\_\+real32 (\begin{DoxyParamCaption}\item[{real(kind=real32), dimension(..), target, contiguous}]{arr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
-\Hypertarget{interfacem__flatten_1_1flatten_ab69072d349a03e578be2e4a3852f57c7}\index{m\_flatten::flatten@{m\_flatten::flatten}!flatten\_real64@{flatten\_real64}}
+\mbox{\Hypertarget{interfacem__flatten_1_1flatten_ab69072d349a03e578be2e4a3852f57c7}\label{interfacem__flatten_1_1flatten_ab69072d349a03e578be2e4a3852f57c7}} 
+\index{m\_flatten::flatten@{m\_flatten::flatten}!flatten\_real64@{flatten\_real64}}
 \index{flatten\_real64@{flatten\_real64}!m\_flatten::flatten@{m\_flatten::flatten}}
 \doxysubsubsection{\texorpdfstring{flatten\_real64()}{flatten\_real64()}}
-{\footnotesize\ttfamily \label{interfacem__flatten_1_1flatten_ab69072d349a03e578be2e4a3852f57c7} 
-real(kind=real64) function, dimension(\+:), pointer m\+\_\+flatten\+::flatten\+::flatten\+\_\+real64 (\begin{DoxyParamCaption}\item[{real(kind=real64), dimension(..), target, contiguous}]{arr}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily real(kind=real64) function, dimension(\+:), pointer m\+\_\+flatten\+::flatten\+::flatten\+\_\+real64 (\begin{DoxyParamCaption}\item[{real(kind=real64), dimension(..), target, contiguous}]{arr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
 The documentation for this interface was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-/cygdrive/c/users/johns/\+TOLINUX/\+M\+\_\+flatten/src/\mbox{\hyperlink{M__flatten_8f90}{M\+\_\+flatten.\+f90}}\end{DoxyCompactItemize}
+/home/urbanjs/venus/\+V600/github/\+M\+\_\+flatten/src/\mbox{\hyperlink{M__flatten_8f90}{M\+\_\+flatten.\+f90}}\end{DoxyCompactItemize}

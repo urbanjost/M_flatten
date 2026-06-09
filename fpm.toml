@@ -28,7 +28,7 @@ homepage = "https://github.com/urbanjost/M_flatten.git"
    source-dir="test/"
    main="test_suite_M_flatten.f90"
    [test.dependencies]
-   M_framework    = { git = "https://github.com/urbanjost/M_framework.git" }
+   #M_framework    = { git = "https://github.com/urbanjost/M_framework.git" }
    #M_framework = {namespace = "GPF"}
    # ln -f -s $HOME/github/GLINKS GLINKS
-   #M_framework  = { path = "GLINKS/M_framework" }
+   M_framework  = { path = "GLINKS/M_framework" }
