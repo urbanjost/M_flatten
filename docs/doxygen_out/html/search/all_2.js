@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['m_5fflatten_20fortran_20library_7',['M_flatten Fortran Library',['../index.html',1,'']]],
-  ['m_5fflatten_8',['m_flatten',['../namespacem__flatten.html',1,'']]],
-  ['m_5fflatten_2ef90_9',['M_flatten.f90',['../M__flatten_8f90.html',1,'']]],
-  ['mainpage_2etxt_10',['mainpage.txt',['../mainpage_8txt.html',1,'']]]
+  ['3_0',['FLATTEN(3).',['../namespacem__flatten.html#autotoc_md6',1,'']]],
+  ['3_20in_20the_20call_20to_20the_20user_20procedure_1',['Calling FLATTEN(3) in the call to the user procedure',['../namespacem__flatten.html#autotoc_md5',1,'']]]
 ];

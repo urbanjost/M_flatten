@@ -1,11 +1,11 @@
-\hypertarget{namespacem__flatten}{}\doxysection{m\+\_\+flatten Module Reference}
-\label{namespacem__flatten}\index{m\_flatten@{m\_flatten}}
-\doxysubsection*{Data Types}
+\doxysection{m\+\_\+flatten Module Reference}
+\hypertarget{namespacem__flatten}{}\label{namespacem__flatten}\index{m\_flatten@{m\_flatten}}
+\doxysubsubsection*{Data Types}
 \begin{DoxyCompactItemize}
 \item 
 interface \mbox{\hyperlink{interfacem__flatten_1_1flatten}{flatten}}
 \end{DoxyCompactItemize}
-\doxysubsection*{Functions/\+Subroutines}
+\doxysubsubsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
 integer(kind=int32) function, dimension(\+:), pointer \mbox{\hyperlink{namespacem__flatten_adb1374d8fa061d300ecdac28a1af79f3}{flatten\+\_\+int32}} (arr)
@@ -19,21 +19,33 @@ real(kind=real64) function, dimension(\+:), pointer \mbox{\hyperlink{namespacem_
 
 
 \doxysubsection{Detailed Description}
-\hypertarget{namespacem__flatten_autotoc_md0}{}\doxysubsubsection{N\+A\+ME}\label{namespacem__flatten_autotoc_md0}
-M\+\_\+flatten(3f) -\/ \mbox{[}M\+\_\+flatten\+::\+I\+N\+T\+RO\mbox{]} Module for dealing with argument rank mismatch (L\+I\+C\+E\+N\+SE\+:M\+IT)\hypertarget{namespacem__flatten_autotoc_md1}{}\doxysubsubsection{D\+E\+S\+C\+R\+I\+P\+T\+I\+ON}\label{namespacem__flatten_autotoc_md1}
+\hypertarget{namespacem__flatten_autotoc_md0}{}\doxysubsubsection{\texorpdfstring{NAME}{NAME}}\label{namespacem__flatten_autotoc_md0}
+M\+\_\+flatten(3f) -\/ \mbox{[}M\+\_\+flatten\+::\+INTRO\mbox{]} Module for dealing with argument rank mismatch (LICENSE\+:MIT)\hypertarget{namespacem__flatten_autotoc_md1}{}\doxysubsubsection{\texorpdfstring{DESCRIPTION}{DESCRIPTION}}\label{namespacem__flatten_autotoc_md1}
 Standard methods for passing arguments of different rank are suitable for many cases but when procedures have many arguments with independently variable ranks techniques such as generic procedures can require excessive duplication.
 
-The F\+L\+A\+T\+T\+E\+N(3) procedure provided here can simply such interfaces particularly when contiguous data is being passed.\hypertarget{namespacem__flatten_autotoc_md2}{}\doxysubsubsection{S\+Y\+N\+O\+P\+S\+IS}\label{namespacem__flatten_autotoc_md2}
+The FLATTEN(3) procedure provided here can simply such interfaces particularly when contiguous data is being passed.\hypertarget{namespacem__flatten_autotoc_md2}{}\doxysubsubsection{\texorpdfstring{SYNOPSIS}{SYNOPSIS}}\label{namespacem__flatten_autotoc_md2}
 public methods\+:
 
-flatten returns a rank one array pointer to a scalar or multi-\/dimensional array\hypertarget{namespacem__flatten_autotoc_md3}{}\doxysubsubsection{E\+X\+A\+M\+P\+L\+ES}\label{namespacem__flatten_autotoc_md3}
-Sample program\+:
+flatten returns a rank one array pointer to a scalar or multi-\/dimensional array\hypertarget{namespacem__flatten_autotoc_md3}{}\doxysubsubsection{\texorpdfstring{EXAMPLES}{EXAMPLES}}\label{namespacem__flatten_autotoc_md3}
+Sample program\+: \begin{DoxyVerb}program demo_M_flatten
+use M_flatten, only : flatten
+implicit none
+integer :: a
+integer :: b0, b1(-1:1), b2(2,2), b3(2,2,1)
 
-program demo\+\_\+\+M\+\_\+flatten use M\+\_\+flatten, only \+: flatten implicit none integer \+:: a integer \+:: b0, b1(-\/1\+:1), b2(2,2), b3(2,2,1)
+   write(*,*)'WANTED:'
+   a=0
+   call wanted ( a, b0 )
+   print *, 'a=', a, 'b0=', b0
+   call wanted ( a, b1 )
+   print *, 'a=', a, 'b1=', b1
+   call wanted ( a, b2 )
+   print *, 'a=', a, 'b2=', b2
+   call wanted ( a, b3 )
+   print *, 'a=', a, 'b3=', b3
 
-write($\ast$,$\ast$)\textquotesingle{}W\+A\+N\+T\+ED\+:\textquotesingle{} a=0 call wanted ( a, b0 ) print $\ast$, \textquotesingle{}a=\textquotesingle{}, a, \textquotesingle{}b0=\textquotesingle{}, b0 call wanted ( a, b1 ) print $\ast$, \textquotesingle{}a=\textquotesingle{}, a, \textquotesingle{}b1=\textquotesingle{}, b1 call wanted ( a, b2 ) print $\ast$, \textquotesingle{}a=\textquotesingle{}, a, \textquotesingle{}b2=\textquotesingle{}, b2 call wanted ( a, b3 ) print $\ast$, \textquotesingle{}a=\textquotesingle{}, a, \textquotesingle{}b3=\textquotesingle{}, b3
 
-\begin{DoxyVerb}   write(*,*)'WANTED1:'
+   write(*,*)'WANTED1:'
    ! Alternatively, to avoid using pointers directly
    ! write the called routine to expect a flattened
    ! array and call the argument with flatten().
@@ -79,17 +91,23 @@ end program demo_M_flatten
 \end{DoxyVerb}
 
 
-Results\+:
+Results\+: \begin{DoxyVerb}   >  WANTED:
+   >  a=           1 b0=  1
+   >  a=           4 b1=  2    3       4
+   >  a=           8 b2=  5    6       7       8
+   >  a=          12 b3=  9   10      11      12
+   >  WANTED1:
+   >  a=           1 b0=  1
+   >  a=           4 b1=  2    3       4
+   >  a=           8 b2=  5    6       7       8
+   >  a=          12 b3=  9   10      11      12
+\end{DoxyVerb}
+\hypertarget{namespacem__flatten_autotoc_md4}{}\doxysubsubsection{\texorpdfstring{DETAILS}{DETAILS}}\label{namespacem__flatten_autotoc_md4}
+The M\+\_\+flatten module provides the procedure FLATTEN(3) which provides a function that returns a rank one array pointer which points to a scalar or an array of any shape.\hypertarget{namespacem__flatten_autotoc_md5}{}\doxysubsubsection{\texorpdfstring{Calling FLATTEN(3) in the call to the user procedure}{Calling FLATTEN(3) in the call to the user procedure}}\label{namespacem__flatten_autotoc_md5}
+To avoid using pointers directly write the called routine to expect a flattened array and pass the arguments with varying rank in a call to \hypertarget{namespacem__flatten_autotoc_md6}{}\doxysubsubsection{\texorpdfstring{FLATTEN(3).}{FLATTEN(3).}}\label{namespacem__flatten_autotoc_md6}
+Note that the called procedure WANTED(3) will not know the original rank or shape unless it is passed, but will know the size of the input array.
 
-$>$ W\+A\+N\+T\+ED\+: $>$ a= 1 b0= 1 $>$ a= 4 b1= 2 3 4 $>$ a= 8 b2= 5 6 7 8 $>$ a= 12 b3= 9 10 11 12 $>$ W\+A\+N\+T\+E\+D1\+: $>$ a= 1 b0= 1 $>$ a= 4 b1= 2 3 4 $>$ a= 8 b2= 5 6 7 8 $>$ a= 12 b3= 9 10 11 12\hypertarget{namespacem__flatten_autotoc_md4}{}\doxysubsubsection{D\+E\+T\+A\+I\+LS}\label{namespacem__flatten_autotoc_md4}
-The M\+\_\+flatten module provides the procedure F\+L\+A\+T\+T\+E\+N(3) which provides a function that returns a rank one array pointer which points to a scalar or an array of any shape.
-
-C\+A\+L\+L\+I\+NG F\+L\+A\+T\+T\+EN IN T\+HE C\+A\+LL TO T\+HE U\+S\+ER P\+R\+O\+C\+E\+D\+U\+RE
-
-To avoid using pointers directly write the called routine to expect a flattened array and pass the arguments with varying rank in a call to \hypertarget{namespacem__flatten_autotoc_md5}{}\doxysubsubsection{F\+L\+A\+T\+T\+E\+N(3).}\label{namespacem__flatten_autotoc_md5}
-Note that the called procedure W\+A\+N\+T\+E\+D(3) will not know the original rank or shape unless it is passed, but will know the size of the input array.
-
-The argument to F\+L\+A\+T\+T\+E\+N(3) should be a whole contiguous array. A slice or subsection would almost certaining just create and alter a temporary. \begin{DoxyVerb}  program arg
+The argument to FLATTEN(3) should be a whole contiguous array. A slice or subsection would almost certaining just create and alter a temporary. \begin{DoxyVerb}  program arg
   use M_flatten, only : flatten
   implicit none
   integer :: a
@@ -120,13 +138,16 @@ The argument to F\+L\+A\+T\+T\+E\+N(3) should be a whole contiguous array. A sli
 \end{DoxyVerb}
 
 
-Result
+Result \begin{DoxyVerb}   a=      1 b0=      1
+   a=      4 b1=      2      3      4
+   a=      8 b2=      5      6      7      8
+   a=     12 b3=      9     10     11     12
+\end{DoxyVerb}
 
-a= 1 b0= 1 a= 4 b1= 2 3 4 a= 8 b2= 5 6 7 8 a= 12 b3= 9 10 11 12
 
-C\+A\+L\+L\+I\+NG F\+L\+A\+T\+T\+EN IN T\+HE U\+S\+ER P\+R\+O\+C\+E\+D\+U\+RE
+Calling FLATTEN(3) in the user procedure
 
-A minor use of pointers is required in this alternate use of F\+L\+A\+T\+T\+E\+N(3) but the called routine can query the original input argument with R\+A\+N\+K(3) and S\+H\+A\+P\+E(3) not just S\+I\+Z\+E(3). \begin{DoxyVerb}  program elem
+A minor use of pointers is required in this alternate use of FLATTEN(3) but the called routine can query the original input argument with RANK(3) and SHAPE(3) not just SIZE(3). \begin{DoxyVerb}  program elem
   implicit none
   integer :: a
   integer :: b0, b1(-1:1), b2(2,2), b3(2,2,1), b4(2,2,2)
@@ -172,9 +193,14 @@ A minor use of pointers is required in this alternate use of F\+L\+A\+T\+T\+E\+N
 \end{DoxyVerb}
 
 
-Result
+Result \begin{DoxyVerb}a=  1   b0=    1
+a=  4   b1=    2    3    4
+a=  8   b2=    5    6    7    8
+a=  12  b3=    9   10   11   12
+a=  4   b4=  -99    1  -99    2   -99    3  -99  4
+a=  4   b4=  -99  -99    1    2   -99  -99    3  4
+\end{DoxyVerb}
 
-a= 1 b0= 1 a= 4 b1= 2 3 4 a= 8 b2= 5 6 7 8 a= 12 b3= 9 10 11 12 a= 4 b4= -\/99 1 -\/99 2 -\/99 3 -\/99 4 a= 4 b4= -\/99 -\/99 1 2 -\/99 -\/99 3 4
 
 A single-\/dimension array pointer can point to a multi-\/dimensional array?
 
@@ -182,55 +208,92 @@ Yes, a single-\/dimension (rank-\/1) array pointer can point to a multi-\/dimens
 
 This technique is known as pointer rank remapping (introduced in Fortran 2003 and expanded in Fortran 2008).
 
-R\+U\+L\+ES A\+ND R\+E\+Q\+U\+I\+R\+E\+M\+E\+N\+TS
+RULES AND REQUIREMENTS
 
 Explicit Bounds\+: You must specify the explicit upper and lower bounds on the left-\/hand side of the pointer assignment. You cannot use a deferred colon (\+:).
 
 Contiguity\+: The multi-\/dimensional target array must occupy a continuous block of memory. Regular allocated or static arrays are automatically contiguous, but array slices with strides (e.\+g., matrix(\+::2, \+:)) are not.
 
-Array Size\+: The size of the pointer must exactly match or be less than the total number of elements in the target array. Target Attribute\+: The multi-\/dimensional array must be declared with the target attribute.\hypertarget{namespacem__flatten_autotoc_md6}{}\doxysubsubsection{S\+O\+M\+E\+T\+H\+I\+N\+G A\+S G\+E\+N\+E\+R\+A\+L A\+S F\+L\+A\+T\+T\+E\+N M\+A\+Y N\+O\+T B\+E R\+E\+Q\+U\+I\+R\+ED}\label{namespacem__flatten_autotoc_md6}
-E\+L\+E\+M\+E\+N\+T\+AL P\+R\+O\+C\+E\+D\+U\+R\+ES
+Array Size\+: The size of the pointer must exactly match or be less than the total number of elements in the target array. Target Attribute\+: The multi-\/dimensional array must be declared with the target attribute.\hypertarget{namespacem__flatten_autotoc_md7}{}\doxysubsubsection{\texorpdfstring{SOMETHING AS GENERAL AS FLATTEN MAY NOT BE REQUIRED}{SOMETHING AS GENERAL AS FLATTEN MAY NOT BE REQUIRED}}\label{namespacem__flatten_autotoc_md7}
+ELEMENTAL PROCEDURES
 
-If you wish to make a procedure that can be called with a specific argument having different ranks you can use elemental procedures if all the arrays passed are of the same size and all the scalar arguments are I\+N\+T\+E\+N\+T(\+I\+N).
+If you wish to make a procedure that can be called with a specific argument having different ranks you can use elemental procedures if all the arrays passed are of the same size and all the scalar arguments are INTENT(\+IN).
 
 Since the scalars are not able to be changed this allows for pure procedures to be called in parallel where each call to the scalar routine can be made in any order.
 
-G\+E\+N\+E\+R\+IC I\+N\+T\+E\+R\+F\+A\+CE
+GENERIC INTERFACE
 
-One could also write separate subroutines for each rank, and then make a {\itshape generic interface} for all of them. If there are only a few combinations of arguments with varying rank it has the advantage that there are not restrictions on the arrays all having the same rank or scalars being only I\+N\+T\+E\+N\+T(\+I\+N) and unsupported ranks are detected at compile time rather than run time. If there are multiple values that can be of different ranks independent of each other the number of permutations and thus the number of interface routines can get excessive. A preprocessor might help generate a large number of interfaces but F\+L\+A\+T\+T\+E\+N(3) provides a simple alternative for such cases.
+One could also write separate subroutines for each rank, and then make a {\itshape generic interface} for all of them. If there are only a few combinations of arguments with varying rank it has the advantage that there are not restrictions on the arrays all having the same rank or scalars being only INTENT(\+IN) and unsupported ranks are detected at compile time rather than run time. If there are multiple values that can be of different ranks independent of each other the number of permutations and thus the number of interface routines can get excessive. A preprocessor might help generate a large number of interfaces but FLATTEN(3) provides a simple alternative for such cases.
 
-A\+S\+S\+U\+M\+ED R\+A\+NK A\+ND S\+E\+L\+E\+CT R\+A\+NK
+ASSUMED RANK AND SELECT RANK
 
-Another approach is to define a dummy argument to be assumed rank. The programmer must then account for each rank manually. It is possible to catch the assumed size case and treat it specially; in the following code it just writes a message saying it is unsupported.
+Another approach is to define a dummy argument to be assumed rank. The programmer must then account for each rank manually. It is possible to catch the assumed size case and treat it specially; in the following code it just writes a message saying it is unsupported. \begin{DoxyVerb}program elem
+   implicit none
+   integer :: a
+   integer :: b0, b1(-1:1), b2(2,2), b3(2,2,1)
 
-program elem implicit none integer \+:: a integer \+:: b0, b1(-\/1\+:1), b2(2,2), b3(2,2,1)
-
-a=0 call wanted( a, b0 ) print $\ast$, \textquotesingle{}a=\textquotesingle{}, a, \textquotesingle{}b0=\textquotesingle{}, b0 call wanted( a, b1 ) print $\ast$, \textquotesingle{}a=\textquotesingle{}, a, \textquotesingle{}b1=\textquotesingle{}, b1 call wanted( a, b2 ) print $\ast$, \textquotesingle{}a=\textquotesingle{}, a, \textquotesingle{}b2=\textquotesingle{}, b2 call wanted( a, b3 ) print $\ast$, \textquotesingle{}a=\textquotesingle{}, a, \textquotesingle{}b3=\textquotesingle{}, b3
+   a=0
+   call wanted( a, b0 )
+   print *, 'a=', a, 'b0=', b0
+   call wanted( a, b1 )
+   print *, 'a=', a, 'b1=', b1
+   call wanted( a, b2 )
+   print *, 'a=', a, 'b2=', b2
+   call wanted( a, b3 )
+   print *, 'a=', a, 'b3=', b3
 
 contains
 
-subroutine wanted( a, b ) integer, intent(inout) \+:: a integer, contiguous, intent(out) \+:: b(..)
+  subroutine wanted( a, b )
+     integer, intent(inout)           :: a
+     integer, contiguous, intent(out) :: b(..)
 
-integer \+:: i, j, k
+     integer :: i, j, k
 
-select rank (b) rank (0) a = a + 1 b = a
+     select rank (b)
+     rank (0)
+     a = a + 1
+     b = a
 
-rank (1) do i = 1, size(b) a = a + 1 b(i) = a enddo
+     rank (1)
+     do i = 1, size(b)
+        a = a + 1
+        b(i) = a
+     enddo
 
-rank (2) do j = 1, size(b,dim=2) do i = 1, size(b,dim=1) a = a + 1 b(i,j) = a enddo enddo
+     rank (2)
+     do j = 1, size(b,dim=2)
+        do i = 1, size(b,dim=1)
+           a = a + 1
+           b(i,j) = a
+        enddo
+     enddo
 
-rank (3) do k = 1, size(b,dim=3) do j = 1, size(b,dim=2) do i = 1, size(b,dim=1) a = a + 1 b(i,j,k) = a enddo enddo enddo
+     rank (3)
+     do k = 1, size(b,dim=3)
+        do j = 1, size(b,dim=2)
+           do i = 1, size(b,dim=1)
+              a = a + 1
+              b(i,j,k) = a
+           enddo
+        enddo
+     enddo
 
-rank ($\ast$) print $\ast$, \textquotesingle{}assumed size is unsupported\textquotesingle{} stop 1
+     rank (*)
+     print *, 'assumed size is unsupported'
+     stop 1
 
-rank default print $\ast$, \textquotesingle{}unsupported rank\textquotesingle{} stop 2
+     rank default
+     print *,  'unsupported rank'
+     stop 2
 
-end select
+   end select
 
-end subroutine wanted end program elem\hypertarget{namespacem__flatten_autotoc_md7}{}\doxysubsubsection{A\+L\+T\+E\+R\+N\+A\+T\+I\+V\+E I}\label{namespacem__flatten_autotoc_md7}
-A\+R\+G\+U\+M\+E\+NT M\+I\+S\+M\+A\+T\+CH
-
-This alternative method allows argument mismatch and using assumed-\/size arrays (Fortran 77 Style)
+ end subroutine wanted
+ end program elem
+\end{DoxyVerb}
+\hypertarget{namespacem__flatten_autotoc_md8}{}\doxysubsubsection{\texorpdfstring{ALTERNATIVE 1\+:}{ALTERNATIVE 1\+:}}\label{namespacem__flatten_autotoc_md8}
+Allowing argument mismatch and using assumed-\/size arrays (Fortran 77 Style)
 
 Modern compilers frequently treat rank mismatches as a fatal error by default, which frequently impacts legacy Fortran 77 code. It was extremely common for pre-\/f90 compilers to allow argument rank mismatch and the extension was heavily used in many codes.
 
@@ -251,116 +314,133 @@ Now if you want to pass a multi-\/dimensional array or a specific element of an 
 
 
 \begin{DoxyItemize}
-\item Declare the final dimension of the dummy argument with an asterisk ($\ast$).
-\item Pass the first element of the array or array section explicitly (known as {\itshape sequence association}).
+\item Declare the final dimension of the dummy argument with an asterisk (\texorpdfstring{$\ast$}{*}).
+\item Pass the first element of the array or array section explicitly (known as {\itshape sequence association}). \begin{DoxyVerb}program arbitrary
+implicit none
+integer :: a
+integer :: b0, b1(-1:1), b2(2,2), b3(2,2,1)
+external wanted
 
-program arbitrary implicit none integer \+:: a integer \+:: b0, b1(-\/1\+:1), b2(2,2), b3(2,2,1) external wanted
-
-a=0 call wanted ( a, b0 ,1) print $\ast$, \textquotesingle{}a=\textquotesingle{}, a, \textquotesingle{}b0=\textquotesingle{}, b0 call wanted ( a, b1 ,size(b1)) print $\ast$, \textquotesingle{}a=\textquotesingle{}, a, \textquotesingle{}b0=\textquotesingle{}, b1 call wanted ( a, b2 ,size(b2)) print $\ast$, \textquotesingle{}a=\textquotesingle{}, a, \textquotesingle{}b0=\textquotesingle{}, b2 call wanted ( a, b3 ,size(b3)) print $\ast$, \textquotesingle{}a=\textquotesingle{}, a, \textquotesingle{}b0=\textquotesingle{}, b3 contains
+   a=0
+   call wanted ( a, b0 ,1)
+   print *, 'a=', a, 'b0=', b0
+   call wanted ( a, b1 ,size(b1))
+   print *, 'a=', a, 'b0=', b1
+   call wanted ( a, b2 ,size(b2))
+   print *, 'a=', a, 'b0=', b2
+   call wanted ( a, b3 ,size(b3))
+   print *, 'a=', a, 'b0=', b3
+contains
 
 end program arbitrary
 
-subroutine wanted( a, b, n ) integer, intent(inout) \+:: a integer, intent(out) \+:: b($\ast$) integer, intent(in) \+:: n integer \+:: i do i=1,n a = a + 1 b(i) = a enddo end subroutine wanted
-\end{DoxyItemize}
+subroutine wanted( a, b, n )
+integer, intent(inout) :: a
+integer, intent(out)   :: b(*)
+integer, intent(in)    :: n
+integer                :: i
+   do i=1,n
+      a = a + 1
+      b(i) = a
+   enddo
+end subroutine wanted
 
-\begin{DoxyVerb}   $ gfortran arbitrary.f90 -fallow-argument-mismatch -o arbitrary
-   arbitrary.f90:8:20:
 
-   8 |    call wanted ( a, b0 ,1)
-     |                    1
-   Warning: Rank mismatch in argument ‘b’ at (1) (rank-1 and scalar)
+$ gfortran arbitrary.f90 -fallow-argument-mismatch -o arbitrary
+arbitrary.f90:8:20:
 
-   ./arbitrary
-    a=       1 b0=       1
-    a=       4 b1=       2       3       4
-    a=       8 b2=       5       6       7       8
-    a=      12 b3=       9      10      11      12
+8 |    call wanted ( a, b0 ,1)
+  |                    1
+Warning: Rank mismatch in argument ‘b’ at (1) (rank-1 and scalar)
+
+./arbitrary
+ a=       1 b0=       1
+ a=       4 b1=       2       3       4
+ a=       8 b2=       5       6       7       8
+ a=      12 b3=       9      10      11      12
 \end{DoxyVerb}
 
+\end{DoxyItemize}
 
 Generally when using sequence association and rank mismatch\+:
 
 
 \begin{DoxyItemize}
-\item Place the \char`\"{}wanted\char`\"{} procedure in a seperate file without an interface, like you often would with F77 code.
-\item Declare the dummy argument dimension with an asterisk ($\ast$).
+\item Place the "{}wanted"{} procedure in a seperate file without an interface, like you often would with F77 code.
+\item Declare the dummy argument dimension with an asterisk (\texorpdfstring{$\ast$}{*}).
 \item Pass the number of elements as a new argument.
 \item Pass the first element of the array or array section explicitly (this is the part known as sequence association).
 \end{DoxyItemize}
 
-You might have to add a compiler-\/specific option depending on how much the compiler wants to prevent you from using sequence association.\hypertarget{namespacem__flatten_autotoc_md8}{}\doxysubsubsection{A\+L\+T\+E\+R\+N\+A\+T\+I\+V\+E II}\label{namespacem__flatten_autotoc_md8}
-U\+S\+I\+NG E\+X\+P\+E\+R\+I\+M\+E\+N\+T\+AL P\+R\+O\+P\+O\+S\+ED M\+E\+T\+H\+OD
-
-Using G\+NU Fortran (G\+CC) 16.\+0.\+0 20250727 (experimental) and a compiler switch to allow using proposed features lets you try a proposed feature now that simplifies using assumed rank targets, eliminating the S\+E\+L\+E\+CT R\+A\+NK requirement.
+You might have to add a compiler-\/specific option depending on how much the compiler wants to prevent you from using sequence association.\hypertarget{namespacem__flatten_autotoc_md9}{}\doxysubsubsection{\texorpdfstring{Alternative 2\+: Experimental method proposed for F202Y}{Alternative 2\+: Experimental method proposed for F202Y}}\label{namespacem__flatten_autotoc_md9}
+Using GNU Fortran (GCC) 16.\+0.\+0 20250727 (experimental) and a compiler switch to allow using proposed features lets you try a proposed feature now that simplifies using assumed rank targets, eliminating the SELECT RANK requirement.
 
 By definition it is not certain this is how it will work in the next Fortran standard release.
 
 If you have a recent gfortran release compile the following program with \begin{DoxyVerb}gfortran -std=f202y  point.f90
+
+   program proposed
+   implicit none
+   integer :: a
+   integer :: b0, b1(-1:1), b2(2,2), b3(2,2,1)
+
+      a=0
+      call wanted ( a, b0 )
+      print *, 'a=', a, 'b0=', b0
+      call wanted ( a, b1 )
+      print *, 'a=', a, 'b1=', b1
+      call wanted ( a, b2 )
+      print *, 'a=', a, 'b2=', b2
+      call wanted ( a, b3 )
+      print *, 'a=', a, 'b3=', b3
+
+   contains
+
+   subroutine wanted( a, b)
+   ! NOTE: This technique uses pointer rank remapping (introduced in
+   ! Fortran 2003 and expanded in Fortran 2008), which requires the
+   ! multi-dimensional target array be simply contiguous.
+   integer, intent(inout)                  :: a
+   integer,target, contiguous, intent(out) :: b(..)
+   integer                                 :: n
+   integer,pointer                         :: p_b(:)
+      ! NOTE: The assumed rank target is an experimental F202y feature.
+      p_b(1:n)=>b  ! will this be allowed outside of SELECT RANK
+                   ! and work with a scalar?
+      ! NOTE: Explicit bounds are required. That is, you must
+      ! specify the explicit upper and lower bounds
+      ! on the left-hand side of the pointer assignment.
+      do n=1,size(b)
+         a = a + 1
+         p_b(n) = a
+      enddo
+   end subroutine wanted
+
+   end program proposed
 \end{DoxyVerb}
+\hypertarget{namespacem__flatten_autotoc_md10}{}\doxysubsubsection{\texorpdfstring{SUMMARY}{SUMMARY}}\label{namespacem__flatten_autotoc_md10}
+The FLATTEN(3) procedure generically allows for multi-\/dimensional arrays to be accessed as flattened arrays efficiently without having to copy the data to and from other shapes.
 
-
-Sample using proposed F202y feature \begin{DoxyVerb}  program proposed
-  implicit none
-  integer :: a
-  integer :: b0, b1(-1:1), b2(2,2), b3(2,2,1)
-
-     a=0
-     call wanted ( a, b0 )
-     print *, 'a=', a, 'b0=', b0
-     call wanted ( a, b1 )
-     print *, 'a=', a, 'b1=', b1
-     call wanted ( a, b2 )
-     print *, 'a=', a, 'b2=', b2
-     call wanted ( a, b3 )
-     print *, 'a=', a, 'b3=', b3
-
-  contains
-
-  subroutine wanted( a, b)
-  ! NOTE: This technique uses pointer rank remapping (introduced in
-  ! Fortran 2003 and expanded in Fortran 2008), which requires the
-  ! multi-dimensional target array be simply contiguous.
-  integer, intent(inout)                  :: a
-  integer,target, contiguous, intent(out) :: b(..)
-  integer                                 :: n
-  integer,pointer                         :: p_b(:)
-     ! NOTE: The assumed rank target is an experimental F202y feature.
-     p_b(1:n)=>b  ! will this be allowed outside of SELECT RANK
-                  ! and work with a scalar?
-     ! NOTE: Explicit bounds are required. That is, you must
-     ! specify the explicit upper and lower bounds
-     ! on the left-hand side of the pointer assignment.
-     do n=1,size(b)
-        a = a + 1
-        p_b(n) = a
-     enddo
-  end subroutine wanted
-
-  end program proposed
-\end{DoxyVerb}
-\hypertarget{namespacem__flatten_autotoc_md9}{}\doxysubsubsection{S\+U\+M\+M\+A\+RY}\label{namespacem__flatten_autotoc_md9}
-The F\+L\+A\+T\+T\+E\+N(3) procedure generically allows for multi-\/dimensional arrays to be accessed as flattened arrays efficiently without having to copy the data to and from other shapes.
-
-Consider other methods carefully to decide on whether an alternative to F\+L\+A\+T\+T\+E\+N(3) is more appropriate\+:
+Consider other methods carefully to decide on whether an alternative to FLATTEN(3) is more appropriate\+:
 
 o elemental procedures o generic procedures
 \begin{DoxyItemize}
-\item assumed rank arrays and S\+E\+L\+E\+CT C\+A\+SE. o You can create a flattened copy of the arrays and pass the temporary and then store it back into the original, which can be lot of overhead. o use of intrinsics such as T\+R\+A\+N\+S\+F\+E\+R(3), R\+E\+S\+H\+A\+P\+E(3), P\+A\+C\+K(3), U\+N\+P\+A\+C\+K(3) are often useful when transfering data to variables with a different shape. o (legacy) sequence association. Allowing argument rank mismatch was a de-\/facto standard behavior but never part of the standard so you generally need a compiler option to allow legacy behavior even if using an assumed size array. Probably should be avoided in new code. o (proposed) pointer rank remapping to an assumed rank target available on some compilers as an experimental F202Y feature
+\item assumed rank arrays and SELECT CASE. o You can create a flattened copy of the arrays and pass the temporary and then store it back into the original, which can be lot of overhead. o use of intrinsics such as TRANSFER(3), RESHAPE(3), PACK(3), UNPACK(3) are often useful when transfering data to variables with a different shape. o (legacy) sequence association. Allowing argument rank mismatch was a de-\/facto standard behavior but never part of the standard so you generally need a compiler option to allow legacy behavior even if using an assumed size array. Probably should be avoided in new code. o (proposed) pointer rank remapping to an assumed rank target available on some compilers as an experimental F202Y feature
 \end{DoxyItemize}
 
-For most cases you do not have to do handle very many ranks or types and kinds, so generally the standard elemental, generic, and assume rank arrays are more reasonable as long as you do not fall into the trap of making an interface for every type and rank possible when there are only a few arguments. Where F\+L\+A\+T\+T\+E\+N(3) is particularly useful is when there are many arguments on a procedure, with multiple arguments needing to support independent ranks.\hypertarget{namespacem__flatten_autotoc_md10}{}\doxysubsubsection{A\+U\+T\+H\+OR}\label{namespacem__flatten_autotoc_md10}
-John S. Urban\hypertarget{namespacem__flatten_autotoc_md11}{}\doxysubsubsection{L\+I\+C\+E\+N\+SE}\label{namespacem__flatten_autotoc_md11}
-M\+IT 
+For most cases you do not have to do handle very many ranks or types and kinds, so generally the standard elemental, generic, and assume rank arrays are more reasonable as long as you do not fall into the trap of making an interface for every type and rank possible when there are only a few arguments. Where FLATTEN(3) is particularly useful is when there are many arguments on a procedure, with multiple arguments needing to support independent ranks.\hypertarget{namespacem__flatten_autotoc_md11}{}\doxysubsubsection{\texorpdfstring{AUTHOR}{AUTHOR}}\label{namespacem__flatten_autotoc_md11}
+John S. Urban\hypertarget{namespacem__flatten_autotoc_md12}{}\doxysubsubsection{\texorpdfstring{LICENSE}{LICENSE}}\label{namespacem__flatten_autotoc_md12}
+MIT 
 
 \doxysubsection{Function/\+Subroutine Documentation}
-\mbox{\Hypertarget{namespacem__flatten_adb1374d8fa061d300ecdac28a1af79f3}\label{namespacem__flatten_adb1374d8fa061d300ecdac28a1af79f3}} 
-\index{m\_flatten@{m\_flatten}!flatten\_int32@{flatten\_int32}}
+\Hypertarget{namespacem__flatten_adb1374d8fa061d300ecdac28a1af79f3}\index{m\_flatten@{m\_flatten}!flatten\_int32@{flatten\_int32}}
 \index{flatten\_int32@{flatten\_int32}!m\_flatten@{m\_flatten}}
 \doxysubsubsection{\texorpdfstring{flatten\_int32()}{flatten\_int32()}}
-{\footnotesize\ttfamily integer(kind=int32) function, dimension(\+:), pointer m\+\_\+flatten\+::flatten\+\_\+int32 (\begin{DoxyParamCaption}\item[{integer(kind=int32), dimension(..), target, contiguous}]{arr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily \label{namespacem__flatten_adb1374d8fa061d300ecdac28a1af79f3} 
+integer(kind=int32) function, dimension(\+:), pointer m\+\_\+flatten\+::flatten\+\_\+int32 (\begin{DoxyParamCaption}\item[{integer(kind=int32), dimension(..), target, contiguous}]{arr}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
-\hypertarget{namespacem__flatten_autotoc_md12}{}\doxysubsubsection{N\+A\+ME}\label{namespacem__flatten_autotoc_md12}
-flatten(3f) -\/ \mbox{[}M\+\_\+flatten\+::array\mbox{]} Module for dealing with argument rank mismatch (L\+I\+C\+E\+N\+SE\+:M\+IT)\hypertarget{namespacem__flatten_autotoc_md13}{}\doxysubsubsection{S\+Y\+N\+O\+P\+S\+IS}\label{namespacem__flatten_autotoc_md13}
+\hypertarget{namespacem__flatten_autotoc_md13}{}\doxysubsubsection{\texorpdfstring{NAME}{NAME}}\label{namespacem__flatten_autotoc_md13}
+flatten(3f) -\/ \mbox{[}M\+\_\+flatten\+::array\mbox{]} Module for dealing with argument rank mismatch (LICENSE\+:MIT)\hypertarget{namespacem__flatten_autotoc_md14}{}\doxysubsubsection{\texorpdfstring{SYNOPSIS}{SYNOPSIS}}\label{namespacem__flatten_autotoc_md14}
 \begin{DoxyVerb}function flatten(a) result(b)
 
  integer(kind=int32),intent(in),contiguous,target :: a(..)
@@ -373,26 +453,26 @@ flatten(3f) -\/ \mbox{[}M\+\_\+flatten\+::array\mbox{]} Module for dealing with 
 
  type(TYPE,kind=KIND),pointer,intent(out) :: b(:)
 \end{DoxyVerb}
-\hypertarget{namespacem__flatten_autotoc_md14}{}\doxysubsubsection{C\+H\+A\+R\+A\+C\+T\+E\+R\+I\+S\+T\+I\+CS}\label{namespacem__flatten_autotoc_md14}
+\hypertarget{namespacem__flatten_autotoc_md15}{}\doxysubsubsection{\texorpdfstring{CHARACTERISTICS}{CHARACTERISTICS}}\label{namespacem__flatten_autotoc_md15}
 \begin{DoxyVerb} The type of the returned pointer is the same type as the input
  parameter A.
 \end{DoxyVerb}
-\hypertarget{namespacem__flatten_autotoc_md15}{}\doxysubsubsection{D\+E\+S\+C\+R\+I\+P\+T\+I\+ON}\label{namespacem__flatten_autotoc_md15}
-F\+L\+A\+T\+T\+E\+N(3) returns a rank one array pointer to a scalar or multi-\/dimensional array
+\hypertarget{namespacem__flatten_autotoc_md16}{}\doxysubsubsection{\texorpdfstring{DESCRIPTION}{DESCRIPTION}}\label{namespacem__flatten_autotoc_md16}
+FLATTEN(3) returns a rank one array pointer to a scalar or multi-\/dimensional array
 
 Standard methods for passing arguments of different rank are suitable for many cases but when procedures have many arguments with independently variable ranks techniques such as generic procedures can require excessive duplication.
 
-The F\+L\+A\+T\+T\+E\+N(3) procedure provided here can simply such interfaces particularly when contiguous data is being passed.
+The FLATTEN(3) procedure provided here can simply such interfaces particularly when contiguous data is being passed.
 
-The M\+\_\+flatten module provides the procedure F\+L\+A\+T\+T\+E\+N(3) which provides a function that returns a rank one array pointer which points to a scalar or an array of any shape.
+The M\+\_\+flatten module provides the procedure FLATTEN(3) which provides a function that returns a rank one array pointer which points to a scalar or an array of any shape.
 
-The F\+L\+A\+T\+T\+E\+N(3) procedure generically allows for multi-\/dimensional arrays to be accessed as flattened arrays efficiently without having to copy the data to and from other shapes.
+The FLATTEN(3) procedure generically allows for multi-\/dimensional arrays to be accessed as flattened arrays efficiently without having to copy the data to and from other shapes.
 
-Consider other methods carefully to decide on whether an alternative to F\+L\+A\+T\+T\+E\+N(3) is more appropriate\+:
+Consider other methods carefully to decide on whether an alternative to FLATTEN(3) is more appropriate\+:
 
-o elemental procedures o generic procedures o assumed rank arrays and S\+E\+L\+E\+CT C\+A\+SE. o You can create a flattened copy of the arrays and pass the temporary and then store it back into the original, which can be lot of overhead. o use of intrinsics such as T\+R\+A\+N\+S\+F\+E\+R(3), R\+E\+S\+H\+A\+P\+E(3), P\+A\+C\+K(3), U\+N\+P\+A\+C\+K(3) are often useful when transfering data to variables with a different shape. o (legacy) sequence association. Allowing argument rank mismatch was a de-\/facto standard behavior but never part of the standard so you generally need a compiler option to allow legacy behavior even if using an assumed size array. Probably should be avoided in new code. o (proposed) pointer rank remapping to an assumed rank target available on some compilers as an experimental F202Y feature
+o elemental procedures o generic procedures o assumed rank arrays and SELECT CASE. o You can create a flattened copy of the arrays and pass the temporary and then store it back into the original, which can be lot of overhead. o use of intrinsics such as TRANSFER(3), RESHAPE(3), PACK(3), UNPACK(3) are often useful when transfering data to variables with a different shape. o (legacy) sequence association. Allowing argument rank mismatch was a de-\/facto standard behavior but never part of the standard so you generally need a compiler option to allow legacy behavior even if using an assumed size array. Probably should be avoided in new code. o (proposed) pointer rank remapping to an assumed rank target available on some compilers as an experimental F202Y feature
 
-For most cases you do not have to do handle very many ranks or types and kinds, so generally the standard elemental, generic, and assume rank arrays are more reasonable as long as you do not fall into the trap of making an interface for every type and rank possible when there are only a few arguments. Where F\+L\+A\+T\+T\+E\+N(3) is particularly useful is when there are many arguments on a procedure, with multiple arguments needing to support independent ranks.\hypertarget{namespacem__flatten_autotoc_md16}{}\doxysubsubsection{E\+X\+A\+M\+P\+L\+ES}\label{namespacem__flatten_autotoc_md16}
+For most cases you do not have to do handle very many ranks or types and kinds, so generally the standard elemental, generic, and assume rank arrays are more reasonable as long as you do not fall into the trap of making an interface for every type and rank possible when there are only a few arguments. Where FLATTEN(3) is particularly useful is when there are many arguments on a procedure, with multiple arguments needing to support independent ranks.\hypertarget{namespacem__flatten_autotoc_md17}{}\doxysubsubsection{\texorpdfstring{EXAMPLES}{EXAMPLES}}\label{namespacem__flatten_autotoc_md17}
 Sample program\+: \begin{DoxyVerb}program demo_flatten
 use M_flatten, only : flatten
 implicit none
@@ -454,25 +534,34 @@ end program demo_flatten
 \end{DoxyVerb}
 
 
-Results\+:
-
-$>$ W\+A\+N\+T\+ED\+: $>$ a= 1 b0= 1 $>$ a= 4 b1= 2 3 4 $>$ a= 8 b2= 5 6 7 8 $>$ a= 12 b3= 9 10 11 12 $>$ W\+A\+N\+T\+E\+D1\+: $>$ a= 1 b0= 1 $>$ a= 4 b1= 2 3 4 $>$ a= 8 b2= 5 6 7 8 $>$ a= 12 b3= 9 10 11 12\hypertarget{namespacem__flatten_autotoc_md17}{}\doxysubsubsection{A\+U\+T\+H\+OR}\label{namespacem__flatten_autotoc_md17}
-John S. Urban\hypertarget{namespacem__flatten_autotoc_md18}{}\doxysubsubsection{L\+I\+C\+E\+N\+SE}\label{namespacem__flatten_autotoc_md18}
-M\+IT \mbox{\Hypertarget{namespacem__flatten_afeea9d1d2e2b538b93813114fe25bff5}\label{namespacem__flatten_afeea9d1d2e2b538b93813114fe25bff5}} 
-\index{m\_flatten@{m\_flatten}!flatten\_int64@{flatten\_int64}}
+Results\+: \begin{DoxyVerb}>  WANTED:
+>  a=           1 b0=  1
+>  a=           4 b1=  2    3       4
+>  a=           8 b2=  5    6       7       8
+>  a=          12 b3=  9   10      11      12
+>  WANTED1:
+>  a=           1 b0=  1
+>  a=           4 b1=  2    3       4
+>  a=           8 b2=  5    6       7       8
+>  a=          12 b3=  9   10      11      12
+\end{DoxyVerb}
+\hypertarget{namespacem__flatten_autotoc_md18}{}\doxysubsubsection{\texorpdfstring{AUTHOR}{AUTHOR}}\label{namespacem__flatten_autotoc_md18}
+John S. Urban\hypertarget{namespacem__flatten_autotoc_md19}{}\doxysubsubsection{\texorpdfstring{LICENSE}{LICENSE}}\label{namespacem__flatten_autotoc_md19}
+MIT \Hypertarget{namespacem__flatten_afeea9d1d2e2b538b93813114fe25bff5}\index{m\_flatten@{m\_flatten}!flatten\_int64@{flatten\_int64}}
 \index{flatten\_int64@{flatten\_int64}!m\_flatten@{m\_flatten}}
 \doxysubsubsection{\texorpdfstring{flatten\_int64()}{flatten\_int64()}}
-{\footnotesize\ttfamily integer(kind=int64) function, dimension(\+:), pointer m\+\_\+flatten\+::flatten\+\_\+int64 (\begin{DoxyParamCaption}\item[{integer(kind=int64), dimension(..), target, contiguous}]{arr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily \label{namespacem__flatten_afeea9d1d2e2b538b93813114fe25bff5} 
+integer(kind=int64) function, dimension(\+:), pointer m\+\_\+flatten\+::flatten\+\_\+int64 (\begin{DoxyParamCaption}\item[{integer(kind=int64), dimension(..), target, contiguous}]{arr}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
-\mbox{\Hypertarget{namespacem__flatten_a26fd7de035b9c15aa3ad20e5c1073abb}\label{namespacem__flatten_a26fd7de035b9c15aa3ad20e5c1073abb}} 
-\index{m\_flatten@{m\_flatten}!flatten\_real32@{flatten\_real32}}
+\Hypertarget{namespacem__flatten_a26fd7de035b9c15aa3ad20e5c1073abb}\index{m\_flatten@{m\_flatten}!flatten\_real32@{flatten\_real32}}
 \index{flatten\_real32@{flatten\_real32}!m\_flatten@{m\_flatten}}
 \doxysubsubsection{\texorpdfstring{flatten\_real32()}{flatten\_real32()}}
-{\footnotesize\ttfamily real(kind=real32) function, dimension(\+:), pointer m\+\_\+flatten\+::flatten\+\_\+real32 (\begin{DoxyParamCaption}\item[{real(kind=real32), dimension(..), target, contiguous}]{arr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily \label{namespacem__flatten_a26fd7de035b9c15aa3ad20e5c1073abb} 
+real(kind=real32) function, dimension(\+:), pointer m\+\_\+flatten\+::flatten\+\_\+real32 (\begin{DoxyParamCaption}\item[{real(kind=real32), dimension(..), target, contiguous}]{arr}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
-\mbox{\Hypertarget{namespacem__flatten_a4a3e65d7c2335069163ce288865d225c}\label{namespacem__flatten_a4a3e65d7c2335069163ce288865d225c}} 
-\index{m\_flatten@{m\_flatten}!flatten\_real64@{flatten\_real64}}
+\Hypertarget{namespacem__flatten_a4a3e65d7c2335069163ce288865d225c}\index{m\_flatten@{m\_flatten}!flatten\_real64@{flatten\_real64}}
 \index{flatten\_real64@{flatten\_real64}!m\_flatten@{m\_flatten}}
 \doxysubsubsection{\texorpdfstring{flatten\_real64()}{flatten\_real64()}}
-{\footnotesize\ttfamily real(kind=real64) function, dimension(\+:), pointer m\+\_\+flatten\+::flatten\+\_\+real64 (\begin{DoxyParamCaption}\item[{real(kind=real64), dimension(..), target, contiguous}]{arr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily \label{namespacem__flatten_a4a3e65d7c2335069163ce288865d225c} 
+real(kind=real64) function, dimension(\+:), pointer m\+\_\+flatten\+::flatten\+\_\+real64 (\begin{DoxyParamCaption}\item[{real(kind=real64), dimension(..), target, contiguous}]{arr}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
