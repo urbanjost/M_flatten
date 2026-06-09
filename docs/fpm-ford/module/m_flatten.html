@@ -167,14 +167,14 @@
 
 <h2 id="description">DESCRIPTION</h2>
 <p>Standard methods for passing arguments of different rank are suitable for
- many cases but when  procedures have many arguments with independently
+ many cases but when procedures have many arguments with independently
  variable ranks techniques such as generic procedures can require
  excessive duplication.</p>
 <p>The FLATTEN(3) procedure provided here can simply such interfaces
  particularly when contiguous data is being passed.</p>
 <h2 id="synopsis">SYNOPSIS</h2>
 <p>public methods:</p>
-<div class="codehilite"><pre><span></span><code>flatten    returns a rank one array pointer to a  scalar or multi-dimensional array
+<div class="codehilite"><pre><span></span><code>flatten    returns a rank one array pointer to a scalar or multi-dimensional array
 </code></pre></div>
 
 <h2 id="examples">EXAMPLES</h2>
@@ -268,7 +268,7 @@
 <p>The argument to FLATTEN(3) should be a whole contiguous array. A
  slice or subsection would almost certaining just create and alter a
  temporary.</p>
-<div class="codehilite"><pre><span></span><code><span class="w">   </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_M_flatten</span>
+<div class="codehilite"><pre><span></span><code><span class="w">   </span><span class="nx">program</span><span class="w"> </span><span class="nx">arg</span>
 <span class="w">   </span><span class="nx">use</span><span class="w"> </span><span class="nx">M_flatten</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">flatten</span>
 <span class="w">   </span><span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
 <span class="w">   </span><span class="nx">integer</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">a</span>
@@ -295,7 +295,7 @@
 <span class="w">         </span><span class="nx">b</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">a</span>
 <span class="w">      </span><span class="nx">enddo</span>
 <span class="w">   </span><span class="nx">end</span><span class="w"> </span><span class="nx">subroutine</span><span class="w"> </span><span class="nx">wanted</span>
-<span class="w">   </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_M_flatten</span>
+<span class="w">   </span><span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">arg</span>
 </code></pre></div>
 
 <p>Result</p>
@@ -381,8 +381,8 @@ a=  4   b4=  -99  -99    1    2   -99  -99    3  4
    be less than the total number of elements in the target array.
    Target Attribute: The multi-dimensional array must be declared with
    the target attribute.</p>
-<h2 id="do-you-really-require-something-as-general-as-flatten3">DO YOU REALLY REQUIRE SOMETHING AS GENERAL AS FLATTEN(3)?</h2>
-<h2 id="elemental-procedures">ELEMENTAL PROCEDURES</h2>
+<h2 id="something-as-general-as-flatten-may-not-be-required">SOMETHING AS GENERAL AS FLATTEN MAY NOT BE REQUIRED</h2>
+<p>ELEMENTAL PROCEDURES</p>
 <p>If you wish to make a procedure that can be called with a specific
  argument having different ranks you can use elemental procedures if
  all the arrays passed are of the same size and all the scalar arguments
@@ -390,7 +390,7 @@ a=  4   b4=  -99  -99    1    2   -99  -99    3  4
 <p>Since the scalars are not able to be changed this allows for pure procedures
  to be called in parallel where each call to the scalar routine can be made
  in any order.</p>
-<h2 id="generic-interface">GENERIC INTERFACE</h2>
+<p>GENERIC INTERFACE</p>
 <p>One could also write separate subroutines for each rank, and then make a
  <em>generic interface</em> for all of them. If there are only a few combinations
  of arguments with varying rank it has the advantage that there are not
@@ -401,9 +401,9 @@ a=  4   b4=  -99  -99    1    2   -99  -99    3  4
  of interface routines can get excessive. A preprocessor might help generate
  a large number of interfaces but FLATTEN(3) provides a simple alternative
  for such cases.</p>
-<h2 id="assumed-rank-and-select-rank">ASSUMED RANK AND SELECT RANK</h2>
+<p>ASSUMED RANK AND SELECT RANK</p>
 <p>Another approach is to define a dummy argument to be assumed rank.
- The programmer must then account for each rank manually.  It is possible
+ The programmer must then account for each rank manually. It is possible
  to catch the assumed size case and treat it specially; in the following
  code it just writes a message saying it is unsupported.</p>
 <div class="codehilite"><pre><span></span><code><span class="nx">program</span><span class="w"> </span><span class="nx">elem</span>
@@ -506,43 +506,43 @@ a=  4   b4=  -99  -99    1    2   -99  -99    3  4
 <p>Pass the first element of the array or array section explicitly
     (known as <em>sequence association</em>).</p>
 <p>program arbitrary
-implicit none
-integer :: a
-integer :: b0, b1(-1:1), b2(2,2), b3(2,2,1)
-external wanted</p>
-<p>a=0
-   call wanted ( a, b0 ,1)
-   print <em>, &lsquo;a=&rsquo;, a, &lsquo;b0=&rsquo;, b0
-   call wanted ( a, b1 ,size(b1))
-   print </em>, &lsquo;a=&rsquo;, a, &lsquo;b0=&rsquo;, b1
-   call wanted ( a, b2 ,size(b2))
-   print <em>, &lsquo;a=&rsquo;, a, &lsquo;b0=&rsquo;, b2
-   call wanted ( a, b3 ,size(b3))
-   print </em>, &lsquo;a=&rsquo;, a, &lsquo;b0=&rsquo;, b3
-contains</p>
-<p>end program arbitrary
-<code></code>fortran
-subroutine wanted( a, b, n )
-integer, intent(inout) :: a
-integer, intent(out)   :: b(*)
-integer, intent(in)    :: n
-integer                :: i
-   do i=1,n
-      a = a + 1
-      b(i) = a
-   enddo
-end subroutine wanted</p>
+   implicit none
+   integer :: a
+   integer :: b0, b1(-1:1), b2(2,2), b3(2,2,1)
+   external wanted</p>
+<div class="codehilite"><pre><span></span><code>  a=0
+  call wanted ( a, b0 ,1)
+  print <span class="gs">*, &#39;a=&#39;, a, &#39;b0=&#39;, b0</span>
+<span class="gs">  call wanted ( a, b1 ,size(b1))</span>
+<span class="gs">  print *</span>, &#39;a=&#39;, a, &#39;b0=&#39;, b1
+  call wanted ( a, b2 ,size(b2))
+  print <span class="gs">*, &#39;a=&#39;, a, &#39;b0=&#39;, b2</span>
+<span class="gs">  call wanted ( a, b3 ,size(b3))</span>
+<span class="gs">  print *</span>, &#39;a=&#39;, a, &#39;b0=&#39;, b3
+</code></pre></div>
+
+<p>contains</p>
+<p>end program arbitrary</p>
+<p>subroutine wanted( a, b, n )
+   integer, intent(inout) :: a
+   integer, intent(out)   :: b(*)
+   integer, intent(in)    :: n
+   integer                :: i
+      do i=1,n
+         a = a + 1
+         b(i) = a
+      enddo
+   end subroutine wanted</p>
 <p>$ gfortran arbitrary.f90 -fallow-argument-mismatch -o arbitrary
- arbitrary.f90:8:20:</p>
+   arbitrary.f90:8:20:</p>
 <p>8 |    call wanted ( a, b0 ,1)
-   |                    1
- Warning: Rank mismatch in argument ‘b’ at (1) (rank-1 and scalar)</p>
+     |                    1
+   Warning: Rank mismatch in argument ‘b’ at (1) (rank-1 and scalar)</p>
 <p>./arbitrary
-  a=       1 b0=       1
-  a=       4 b1=       2       3       4
-  a=       8 b2=       5       6       7       8
-  a=      12 b3=       9      10      11      12
- ```</p>
+    a=       1 b0=       1
+    a=       4 b1=       2       3       4
+    a=       8 b2=       5       6       7       8
+    a=      12 b3=       9      10      11      12</p>
 </li>
 </ul>
 <p>Generally when using sequence association and rank mismatch:</p>
@@ -615,28 +615,25 @@ end subroutine wanted</p>
 <span class="w">   </span><span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">proposed</span>
 </code></pre></div>
 
-<p>```</p>
 <h2 id="summary">SUMMARY</h2>
 <p>The FLATTEN(3) procedure generically allows for multi-dimensional
  arrays to be accessed as flattened arrays efficiently without having
  to copy the data to and from other shapes.</p>
 <p>Consider other methods carefully to decide on whether an alternative to
  FLATTEN(3) is more appropriate:</p>
-<ul>
-<li>elemental procedures</li>
-<li>generic procedures</li>
-<li>assumed rank arrays and SELECT CASE.</li>
-<li>You can create a flattened copy of the arrays and pass the temporary
-    and then store it back into the original, which can be lot of overhead.</li>
-<li>use of intrinsics such as TRANSFER(3), RESHAPE(3), PACK(3), UNPACK(3)
-    are often useful when transfering data to variables with a different shape.</li>
-<li>(legacy) sequence association.
+<p>o elemental procedures
+  o generic procedures
+  + assumed rank arrays and SELECT CASE.
+  o You can create a flattened copy of the arrays and pass the temporary
+    and then store it back into the original, which can be lot of overhead.
+  o use of intrinsics such as TRANSFER(3), RESHAPE(3), PACK(3), UNPACK(3)
+    are often useful when transfering data to variables with a different shape.
+  o (legacy) sequence association.
     Allowing argument rank mismatch was a de-facto standard behavior but never part of the standard
     so you generally need a compiler option to allow legacy behavior even if using an assumed size
-    array. Probably should be avoided in new code.</li>
-<li>(proposed) pointer rank remapping to an assumed rank target
-    available on some compilers as an experimental F202Y feature</li>
-</ul>
+    array. Probably should be avoided in new code.
+  o (proposed) pointer rank remapping to an assumed rank target
+    available on some compilers as an experimental F202Y feature</p>
 <p>For most cases you do not have to do handle very many ranks or types and kinds, so
  generally the standard elemental, generic, and assume rank arrays are more reasonable
  as long as you do not fall into the trap of making an interface for every type and
@@ -748,7 +745,7 @@ end subroutine wanted</p>
  needing to support independent ranks.</p>
 <h2 id="examples">EXAMPLES</h2>
 <p>Sample program:</p>
-<div class="codehilite"><pre><span></span><code><span class="w">  </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_M_flatten</span>
+<div class="codehilite"><pre><span></span><code><span class="w">  </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_flatten</span>
 <span class="w">  </span><span class="nx">use</span><span class="w"> </span><span class="nx">M_flatten</span><span class="p">,</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">flatten</span>
 <span class="w">  </span><span class="nx">implicit</span><span class="w"> </span><span class="nx">none</span>
 <span class="w">  </span><span class="nx">integer</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="nx">a</span>
@@ -805,7 +802,7 @@ end subroutine wanted</p>
 <span class="w">     </span><span class="nx">enddo</span>
 <span class="w">  </span><span class="nx">end</span><span class="w"> </span><span class="nx">subroutine</span><span class="w"> </span><span class="nx">wanted</span>
 <span class="w">  </span><span class="p">!</span>
-<span class="w">  </span><span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_M_flatten</span>
+<span class="w">  </span><span class="nx">end</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="nx">demo_flatten</span>
 </code></pre></div>
 
 <p>Results:</p>
@@ -1024,7 +1021,7 @@ end subroutine wanted</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-06-07 00:12 +0000             </p>
+ on 2026-06-09 01:44 +0000             </p>
           </div>
         </div>
         <br>

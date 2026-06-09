@@ -10,7 +10,7 @@
 !!##DESCRIPTION
 !!
 !! Standard methods for passing arguments of different rank are suitable for
-!! many cases but when  procedures have many arguments with independently
+!! many cases but when procedures have many arguments with independently
 !! variable ranks techniques such as generic procedures can require
 !! excessive duplication.
 !!
@@ -22,7 +22,7 @@
 !!
 !!   public methods:
 !!
-!!    flatten    returns a rank one array pointer to a  scalar or multi-dimensional array
+!!    flatten    returns a rank one array pointer to a scalar or multi-dimensional array
 !!
 !!##EXAMPLES
 !!
@@ -123,7 +123,7 @@
 !! slice or subsection would almost certaining just create and alter a
 !! temporary.
 !!
-!!       program demo_M_flatten
+!!       program arg
 !!       use M_flatten, only : flatten
 !!       implicit none
 !!       integer :: a
@@ -150,7 +150,7 @@
 !!             b(i) = a
 !!          enddo
 !!       end subroutine wanted
-!!       program demo_M_flatten
+!!       end program arg
 !!
 !!   Result
 !!
@@ -243,9 +243,9 @@
 !!   Target Attribute: The multi-dimensional array must be declared with
 !!   the target attribute.
 !!
-!!##DO YOU REALLY REQUIRE SOMETHING AS GENERAL AS FLATTEN(3)?
+!!##SOMETHING AS GENERAL AS FLATTEN MAY NOT BE REQUIRED
 !!
-!!##ELEMENTAL PROCEDURES
+!!  ELEMENTAL PROCEDURES
 !!
 !! If you wish to make a procedure that can be called with a specific
 !! argument having different ranks you can use elemental procedures if
@@ -256,7 +256,7 @@
 !! to be called in parallel where each call to the scalar routine can be made
 !! in any order.
 !!
-!!##GENERIC INTERFACE
+!!  GENERIC INTERFACE
 !!
 !! One could also write separate subroutines for each rank, and then make a
 !! _generic interface_ for all of them. If there are only a few combinations
@@ -269,10 +269,10 @@
 !! a large number of interfaces but FLATTEN(3) provides a simple alternative
 !! for such cases.
 !!
-!!##ASSUMED RANK AND SELECT RANK
+!!  ASSUMED RANK AND SELECT RANK
 !!
 !! Another approach is to define a dummy argument to be assumed rank.
-!! The programmer must then account for each rank manually.  It is possible
+!! The programmer must then account for each rank manually. It is possible
 !! to catch the assumed size case and treat it specially; in the following
 !! code it just writes a message saying it is unsupported.
 !!
@@ -377,51 +377,49 @@
 !!  * Pass the first element of the array or array section explicitly
 !!    (known as _sequence association_).
 !!
-!!    program arbitrary
-!!    implicit none
-!!    integer :: a
-!!    integer :: b0, b1(-1:1), b2(2,2), b3(2,2,1)
-!!    external wanted
+!!       program arbitrary
+!!       implicit none
+!!       integer :: a
+!!       integer :: b0, b1(-1:1), b2(2,2), b3(2,2,1)
+!!       external wanted
 !!
-!!       a=0
-!!       call wanted ( a, b0 ,1)
-!!       print *, 'a=', a, 'b0=', b0
-!!       call wanted ( a, b1 ,size(b1))
-!!       print *, 'a=', a, 'b0=', b1
-!!       call wanted ( a, b2 ,size(b2))
-!!       print *, 'a=', a, 'b0=', b2
-!!       call wanted ( a, b3 ,size(b3))
-!!       print *, 'a=', a, 'b0=', b3
-!!    contains
+!!          a=0
+!!          call wanted ( a, b0 ,1)
+!!          print *, 'a=', a, 'b0=', b0
+!!          call wanted ( a, b1 ,size(b1))
+!!          print *, 'a=', a, 'b0=', b1
+!!          call wanted ( a, b2 ,size(b2))
+!!          print *, 'a=', a, 'b0=', b2
+!!          call wanted ( a, b3 ,size(b3))
+!!          print *, 'a=', a, 'b0=', b3
+!!       contains
 !!
-!!    end program arbitrary
-!!    ```
-!!    ```fortran
-!!    subroutine wanted( a, b, n )
-!!    integer, intent(inout) :: a
-!!    integer, intent(out)   :: b(*)
-!!    integer, intent(in)    :: n
-!!    integer                :: i
-!!       do i=1,n
-!!          a = a + 1
-!!          b(i) = a
-!!       enddo
-!!    end subroutine wanted
+!!       end program arbitrary
+!!
+!!       subroutine wanted( a, b, n )
+!!       integer, intent(inout) :: a
+!!       integer, intent(out)   :: b(*)
+!!       integer, intent(in)    :: n
+!!       integer                :: i
+!!          do i=1,n
+!!             a = a + 1
+!!             b(i) = a
+!!          enddo
+!!       end subroutine wanted
 !!
 !!
-!!     $ gfortran arbitrary.f90 -fallow-argument-mismatch -o arbitrary
-!!     arbitrary.f90:8:20:
+!!       $ gfortran arbitrary.f90 -fallow-argument-mismatch -o arbitrary
+!!       arbitrary.f90:8:20:
 !!
-!!     8 |    call wanted ( a, b0 ,1)
-!!       |                    1
-!!     Warning: Rank mismatch in argument ‘b’ at (1) (rank-1 and scalar)
+!!       8 |    call wanted ( a, b0 ,1)
+!!         |                    1
+!!       Warning: Rank mismatch in argument ‘b’ at (1) (rank-1 and scalar)
 !!
-!!     ./arbitrary
-!!      a=       1 b0=       1
-!!      a=       4 b1=       2       3       4
-!!      a=       8 b2=       5       6       7       8
-!!      a=      12 b3=       9      10      11      12
-!! ```
+!!       ./arbitrary
+!!        a=       1 b0=       1
+!!        a=       4 b1=       2       3       4
+!!        a=       8 b2=       5       6       7       8
+!!        a=      12 b3=       9      10      11      12
 !!
 !! Generally when using sequence association and rank mismatch:
 !!
@@ -491,7 +489,7 @@
 !!       end subroutine wanted
 !!
 !!       end program proposed
-!! ```
+!!
 !!##SUMMARY
 !!
 !! The FLATTEN(3) procedure generically allows for multi-dimensional
@@ -501,18 +499,18 @@
 !! Consider other methods carefully to decide on whether an alternative to
 !! FLATTEN(3) is more appropriate:
 !!
-!!  + elemental procedures
-!!  + generic procedures
+!!  o elemental procedures
+!!  o generic procedures
 !!  + assumed rank arrays and SELECT CASE.
-!!  + You can create a flattened copy of the arrays and pass the temporary
+!!  o You can create a flattened copy of the arrays and pass the temporary
 !!    and then store it back into the original, which can be lot of overhead.
-!!  + use of intrinsics such as TRANSFER(3), RESHAPE(3), PACK(3), UNPACK(3)
+!!  o use of intrinsics such as TRANSFER(3), RESHAPE(3), PACK(3), UNPACK(3)
 !!    are often useful when transfering data to variables with a different shape.
-!!  + (legacy) sequence association.
+!!  o (legacy) sequence association.
 !!    Allowing argument rank mismatch was a de-facto standard behavior but never part of the standard
 !!    so you generally need a compiler option to allow legacy behavior even if using an assumed size
 !!    array. Probably should be avoided in new code.
-!!  + (proposed) pointer rank remapping to an assumed rank target
+!!  o (proposed) pointer rank remapping to an assumed rank target
 !!    available on some compilers as an experimental F202Y feature
 !!
 !! For most cases you do not have to do handle very many ranks or types and kinds, so
@@ -624,7 +622,7 @@ contains
 !!
 !!  Sample program:
 !!
-!!      program demo_M_flatten
+!!      program demo_flatten
 !!      use M_flatten, only : flatten
 !!      implicit none
 !!      integer :: a
@@ -681,7 +679,7 @@ contains
 !!         enddo
 !!      end subroutine wanted
 !!      !
-!!      end program demo_M_flatten
+!!      end program demo_flatten
 !!
 !!   Results:
 !!
