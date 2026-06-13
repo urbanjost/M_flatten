@@ -88,20 +88,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 3.7% of total for procedures.">11 statements</a>
+                 title=" 4.0% of total for procedures.">12 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/main.f90"> Source File</a>
+              <a href="../src/elem.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/main.f90.html'>main.f90</a></li>
-                <li class="breadcrumb-item"><a href='../program/elem~2.html'>elem</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/elem.f90.html'>elem.f90</a></li>
+                <li class="breadcrumb-item"><a href='../program/elem.html'>elem</a></li>
             <li class="breadcrumb-item active" aria-current="page">wanted</li>
           </ol>
         </nav>
@@ -130,8 +130,8 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../proc/wanted~4.html#variable-i~7">i</a>
-            <a class="list-group-item" href="../proc/wanted~4.html#variable-p_b~3">p_b</a>
+            <a class="list-group-item" href="../proc/wanted~4.html#variable-i~9">i</a>
+            <a class="list-group-item" href="../proc/wanted~4.html#variable-p_b~6">p_b</a>
         </div>
       </div>
     </div>
@@ -169,7 +169,19 @@
     <div class="col-md-9" id='text'>
     <h2> subroutine wanted(a, b)  
 </h2>
-    
+        <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='../module/m_flatten.html'>M_flatten</a></li>
+              </ul>
+            </li>
+        </ul>
+      </div>
+    </div>
+
 
 
 
@@ -186,7 +198,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~11"></span>
+              <span class="anchor" id="variable-a~13"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -201,7 +213,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~7"></span>
+              <span class="anchor" id="variable-b~9"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -234,7 +246,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~7"></span>
+              <span class="anchor" id="variable-i~9"></span>
               integer,
             </td>
               <td>public</td>
@@ -251,7 +263,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p_b~3"></span>
+              <span class="anchor" id="variable-p_b~6"></span>
               integer,
             </td>
               <td>public,</td>
@@ -283,8 +295,9 @@
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="k">subroutine </span><span class="n">wanted</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span>
-<span class="c">! This technique is known as pointer rank remapping (introduced in Fortran 2003 and expanded in Fortran 2008).</span>
-<span class="c">! requires the multi-dimensional target array is simply contiguous.</span>
+<span class="c">! This technique is known as pointer rank remapping (introduced in</span>
+<span class="c">! Fortran 2003 and expanded in Fortran 2008). See below for details</span>
+<span class="k">use </span><span class="n">M_flatten</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">flatten</span>
 <span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span>
 <span class="kt">integer</span><span class="p">,</span><span class="k">target</span><span class="p">,</span><span class="w"> </span><span class="k">contiguous</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="p">(..)</span>
 <span class="kt">integer</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
@@ -318,7 +331,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-06-13 02:29 +0000             </p>
+ on 2026-06-13 06:24 +0000             </p>
           </div>
         </div>
         <br>

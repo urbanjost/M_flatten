@@ -199,6 +199,101 @@ argument with RANK(3) and SHAPE(3) not just SIZE(3).</p>
    a=  12  b3=    9   10   11   12
    a=  4   b4=  -99    1  -99    2   -99    3  -99  4
    a=  4   b4=  -99  -99    1    2   -99  -99    3  4
+
+![gmake](docs/images/gnu.gif)
+## Download and Build with Make(1)
+   Compile the M_flatten module and build all the example programs.
+```bash
+   git clone https://github.com/urbanjost/M_flatten.git
+   cd M_flatten/src
+   # change Makefile if not using one of the listed compilers
+   #
+   make clean
+   make F90=&lt;compiler&gt; F90FLAGS=&lt;flags&gt;
+</code></pre></div>
+
+<p>where <compiler> is one of
+   gfortran|ifx|ifort|nvfortran|nagfor
+   and F90FLAGS=<flags> is optional, where <flags> are custom
+   compiler options.</p>
+<div class="codehilite"><pre><span></span><code><span class="w">   </span><span class="c1"># display other options (test, run, doxygen, ford, ...)</span>
+<span class="w">   </span>make<span class="w"> </span><span class="nb">help</span>
+</code></pre></div>
+
+<p>To install you then generally copy the <em>.mod file and </em>.a file to
+   an appropriate directory. Unfortunately, the specifics vary but in
+   general if you have a directory $HOME/.local/lib and copy those files
+   there then you can generally enter something like</p>
+<div class="codehilite"><pre><span></span><code><span class="w">     </span>gfortran<span class="w"> </span>-L<span class="nv">$HOME</span>/.local/lib<span class="w"> </span>-lM_flatten<span class="w">  </span>myprogram.f90<span class="w"> </span>-o<span class="w"> </span>myprogram
+</code></pre></div>
+
+<p>There are different methods for adding the directory to your default
+   load path, but frequently you can append the directory you have
+   placed the files in into the colon-separated list of directories
+   in the $LD_LIBRARY_PATH or $LIBRARY_PATH environment variable, and
+   then the -L option will not be required (or it&rsquo;s equivalent in your
+   programming environment).</p>
+<div class="codehilite"><pre><span></span><code><span class="w">       </span><span class="nb">export</span><span class="w"> </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$HOME</span>/.local/lib:<span class="nv">$LD_LIBRARY_PATH</span>
+</code></pre></div>
+
+<p><strong>NOTE</strong>: If you use multiple Fortran compilers you may need to create
+   a different directory for each compiler. I would recommend it, such
+   as $HOME/.local/lib/gfortran/.</p>
+<p><img alt="parse" src="docs/images/fpm_logo.gif"></p>
+<h2 id="build-with-fpm">Build with FPM</h2>
+<p>Alternatively, fpm(1) users may download the github repository and build it with
+   fpm ( as described at <a href="https://github.com/fortran-lang/fpm">Fortran Package Manager</a> )</p>
+<div class="codehilite"><pre><span></span><code><span class="w">        </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/urbanjost/M_flatten.git
+<span class="w">        </span><span class="nb">cd</span><span class="w"> </span>M_flatten
+<span class="w">        </span>fpm<span class="w"> </span><span class="nb">test</span><span class="w">   </span><span class="c1"># build and test the module</span>
+<span class="w">        </span>fpm<span class="w"> </span>install<span class="w"> </span><span class="c1"># install the module (in the default location)</span>
+</code></pre></div>
+
+<p>or just list it as a dependency in your fpm.toml project file.</p>
+<div class="codehilite"><pre><span></span><code><span class="w">        </span><span class="k">[dependencies]</span>
+<span class="w">        </span><span class="n">M_flatten</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">git</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;https://github.com/urbanjost/M_flatten.git&quot;</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+
+<hr>
+<h2 id="_1"><img alt="cmake" src="docs/images/cmake_logo-1.png"></h2>
+<h2 id="download-and-build-using-cmake">Download and Build using cmake</h2>
+<p>To download the github repository and build and install with cmake
+(you may wish to change the install path in src/CMakeLists.txt first) :</p>
+<div class="codehilite"><pre><span></span><code><span class="w">      </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/urbanjost/M_flatten.git
+<span class="w">      </span><span class="nb">cd</span><span class="w"> </span>M_flatten
+
+<span class="w">      </span><span class="c1"># Create a Build Directory:</span>
+<span class="w">      </span>mkdir<span class="w"> </span>-p<span class="w"> </span>build
+
+<span class="w">      </span><span class="nb">cd</span><span class="w"> </span>build
+<span class="w">      </span>cmake<span class="w"> </span>-S<span class="w"> </span>../src<span class="w"> </span>-B<span class="w"> </span>.
+
+<span class="w">      </span><span class="c1"># Configure the Build, specifying your preferred compiler (ifort, flang, etc.):</span>
+<span class="w">      </span>cmake<span class="w"> </span>.<span class="w"> </span>-DCMAKE_Fortran_COMPILER<span class="o">=</span>gfortran
+
+<span class="w">      </span><span class="c1"># Build the Project:</span>
+<span class="w">      </span>cmake<span class="w"> </span>--build<span class="w"> </span>.
+
+<span class="w">      </span><span class="c1">#This creates:</span>
+<span class="w">      </span><span class="c1">#</span>
+<span class="w">      </span><span class="c1">#    lib/libM_flatten.a (the static library).</span>
+<span class="w">      </span><span class="c1">#    include/*.mod (module files).</span>
+<span class="w">      </span><span class="c1">#    test/* (test executables).</span>
+<span class="w">      </span><span class="c1">#    example/* (example executables).</span>
+
+<span class="w">      </span><span class="c1"># OPTIONAL SECTION:</span>
+
+<span class="w">      </span><span class="c1"># Verify build</span>
+<span class="w">      </span>ls<span class="w"> </span>lib/libM_flatten.a
+<span class="w">      </span>ls<span class="w"> </span>include/*.mod
+<span class="w">      </span>ls<span class="w"> </span>test/*
+<span class="w">      </span>ls<span class="w"> </span>example/*
+
+<span class="w">      </span><span class="c1">#Optionally Run Tests and Examples:</span>
+<span class="w">      </span><span class="k">for</span><span class="w"> </span>name<span class="w"> </span><span class="k">in</span><span class="w"> </span>./test/*<span class="w"> </span>./example/*
+<span class="w">      </span><span class="k">do</span>
+<span class="w">         </span><span class="nv">$name</span>
+<span class="w">      </span><span class="k">done</span>
 </code></pre></div>
 
 <h3 id="a-single-dimension-array-pointer-can-point-to-a-multi-dimensional-array">A single-dimension array pointer can point to a multi-dimensional array?</h3>
@@ -219,6 +314,7 @@ target array is simply contiguous.</p>
   be less than the total number of elements in the target array.
   Target Attribute: The multi-dimensional array must be declared with
   the target attribute.</p>
+<hr>
 <h2 id="do-you-really-require-something-as-general-as-flatten3">Do you really require something as general as FLATTEN(3)?</h2>
 <h3 id="elemental-procedures">Elemental procedures</h3>
 <p>If you wish to make a procedure that can be called with a specific
@@ -560,7 +656,7 @@ to support independent ranks.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-06-13 02:29 +0000             </p>
+ on 2026-06-13 06:24 +0000             </p>
           </div>
         </div>
         <br>
