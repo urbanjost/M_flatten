@@ -46,7 +46,6 @@ integer                :: i
    enddo
 end subroutine wanted
 program demo_M_flatten
-
 ```
 ### Result
 ```text
@@ -55,7 +54,6 @@ program demo_M_flatten
  a=           8 b2=           5           6           7           8
  a=          12 b3=           9          10          11          12
 ```
-
 ## Calling FLATTEN(3) in the user procedure
 
 A minor use of pointers is required in this alternate use of
@@ -116,6 +114,104 @@ end program elem
    a=  12  b3=    9   10   11   12
    a=  4   b4=  -99    1  -99    2   -99    3  -99  4
    a=  4   b4=  -99  -99    1    2   -99  -99    3  4
+
+![gmake](docs/images/gnu.gif)
+## Download and Build with Make(1)
+   Compile the M_flatten module and build all the example programs.
+```bash
+   git clone https://github.com/urbanjost/M_flatten.git
+   cd M_flatten/src
+   # change Makefile if not using one of the listed compilers
+   #
+   make clean
+   make F90=<compiler> F90FLAGS=<flags>
+```
+   where <compiler> is one of
+   gfortran|ifx|ifort|nvfortran|nagfor
+   and F90FLAGS=<flags> is optional, where <flags> are custom
+   compiler options.
+```bash
+   # display other options (test, run, doxygen, ford, ...)
+   make help
+```
+   To install you then generally copy the *.mod file and *.a file to
+   an appropriate directory. Unfortunately, the specifics vary but in
+   general if you have a directory $HOME/.local/lib and copy those files
+   there then you can generally enter something like
+```bash
+     gfortran -L$HOME/.local/lib -lM_flatten  myprogram.f90 -o myprogram
+```
+   There are different methods for adding the directory to your default
+   load path, but frequently you can append the directory you have
+   placed the files in into the colon-separated list of directories
+   in the $LD_LIBRARY_PATH or $LIBRARY_PATH environment variable, and
+   then the -L option will not be required (or it's equivalent in your
+   programming environment).
+```bash
+       export LD_LIBRARY_PATH=$HOME/.local/lib:$LD_LIBRARY_PATH
+```
+   **NOTE**: If you use multiple Fortran compilers you may need to create
+   a different directory for each compiler. I would recommend it, such
+   as $HOME/.local/lib/gfortran/.
+
+![parse](docs/images/fpm_logo.gif)
+## Build with FPM
+   Alternatively, fpm(1) users may download the github repository and build it with
+   fpm ( as described at [Fortran Package Manager](https://github.com/fortran-lang/fpm) )
+```bash
+        git clone https://github.com/urbanjost/M_flatten.git
+        cd M_flatten
+        fpm test   # build and test the module
+        fpm install # install the module (in the default location)
+```
+   or just list it as a dependency in your fpm.toml project file.
+```toml
+        [dependencies]
+        M_flatten        = { git = "https://github.com/urbanjost/M_flatten.git" }
+```
+---
+![cmake](docs/images/cmake_logo-1.png)
+---
+## Download and Build using cmake
+
+To download the github repository and build and install with cmake
+(you may wish to change the install path in src/CMakeLists.txt first) :
+```bash
+      git clone https://github.com/urbanjost/M_flatten.git
+      cd M_flatten
+
+      # Create a Build Directory:
+      mkdir -p build
+
+      cd build
+      cmake -S ../src -B .
+
+      # Configure the Build, specifying your preferred compiler (ifort, flang, etc.):
+      cmake . -DCMAKE_Fortran_COMPILER=gfortran
+
+      # Build the Project:
+      cmake --build .
+
+      #This creates:
+      #
+      #    lib/libM_flatten.a (the static library).
+      #    include/*.mod (module files).
+      #    test/* (test executables).
+      #    example/* (example executables).
+
+      # OPTIONAL SECTION:
+
+      # Verify build
+      ls lib/libM_flatten.a
+      ls include/*.mod
+      ls test/*
+      ls example/*
+
+      #Optionally Run Tests and Examples:
+      for name in ./test/* ./example/*
+      do
+         $name
+      done
 ```
 ### A single-dimension array pointer can point to a multi-dimensional array?
 
@@ -141,6 +237,8 @@ This technique is known as pointer rank remapping (introduced in Fortran
   be less than the total number of elements in the target array.
   Target Attribute: The multi-dimensional array must be declared with
   the target attribute.
+
+---
 
 ## Do you really require something as general as FLATTEN(3)?
 
