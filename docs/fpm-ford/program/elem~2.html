@@ -87,19 +87,19 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="10.7% of total for programs.">52 statements</a>
+                 title=" 7.2% of total for programs.">35 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/alt4.f90"> Source File</a>
+              <a href="../src/elem.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/alt4.f90.html'>alt4.f90</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/elem.f90.html'>elem.f90</a></li>
             <li class="breadcrumb-item active" aria-current="page">elem</li>
           </ol>
         </nav>
@@ -128,11 +128,12 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/elem~2.html#variable-a~4">a</a>
-            <a class="list-group-item" href="../program/elem~2.html#variable-b0~2">b0</a>
-            <a class="list-group-item" href="../program/elem~2.html#variable-b1~2">b1</a>
-            <a class="list-group-item" href="../program/elem~2.html#variable-b2~2">b2</a>
-            <a class="list-group-item" href="../program/elem~2.html#variable-b3~2">b3</a>
+            <a class="list-group-item" href="../program/elem~2.html#variable-a~12">a</a>
+            <a class="list-group-item" href="../program/elem~2.html#variable-b0~5">b0</a>
+            <a class="list-group-item" href="../program/elem~2.html#variable-b1~5">b1</a>
+            <a class="list-group-item" href="../program/elem~2.html#variable-b2~5">b2</a>
+            <a class="list-group-item" href="../program/elem~2.html#variable-b3~5">b3</a>
+            <a class="list-group-item" href="../program/elem~2.html#variable-b4">b4</a>
         </div>
       </div>
     </div>
@@ -154,7 +155,7 @@
       </a>
       <div id="subs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/elem~2.html#proc-wanted~2">wanted</a>
+            <a class="list-group-item" href="../program/elem~2.html#proc-wanted~5">wanted</a>
         </div>
       </div>
     </div>
@@ -197,7 +198,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~4"></span>
+              <span class="anchor" id="variable-a~12"></span>
               integer
             </td>
             <td>
@@ -213,7 +214,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b0~2"></span>
+              <span class="anchor" id="variable-b0~5"></span>
               integer
             </td>
             <td>
@@ -229,7 +230,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b1~2"></span>
+              <span class="anchor" id="variable-b1~5"></span>
               integer
             </td>
             <td>
@@ -245,7 +246,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b2~2"></span>
+              <span class="anchor" id="variable-b2~5"></span>
               integer
             </td>
             <td>
@@ -261,7 +262,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b3~2"></span>
+              <span class="anchor" id="variable-b3~5"></span>
               integer
             </td>
             <td>
@@ -269,6 +270,22 @@
             </td>
             <td>::</td>
             <td><strong>b3</strong>(2,2,1)</td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b4"></span>
+              integer
+            </td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b4</strong>(2,2,2)</td>
                 <td></td>
                 <td></td>
             <td>
@@ -290,7 +307,7 @@
     <section>
     <h2>Subroutines</h2>
       <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-wanted~2"></span> <h3> subroutine <a href='../proc/wanted~2.html'>wanted</a>(a, b)  
+    <div class="card-header codesum"><span class="anchor" id="proc-wanted~5"></span> <h3> subroutine <a href='../proc/wanted~5.html'>wanted</a>(a, b)  
 </h3></div>
     <div class="card-body">
           
@@ -309,7 +326,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~5"></span>
+              <span class="anchor" id="variable-a~13"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -324,12 +341,12 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~3"></span>
+              <span class="anchor" id="variable-b~8"></span>
               integer,
             </td>
-<td>intent(out)</td>
+<td>intent(out),</td>
               <td></td>            <td>
-              
+              target, contiguous
             </td>
             <td>::</td>
             <td><strong>b</strong>(..)</td>
@@ -350,68 +367,47 @@
     <section>
     <h2 id="src">Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="k">program </span><span class="n">elem</span>
-<span class="w">   </span><span class="k">implicit none</span>
-<span class="k">   </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span>
-<span class="w">   </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b0</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">b2</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">b3</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">implicit none</span>
+<span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span>
+<span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b0</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">b2</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">b3</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">b4</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
 
 <span class="w">   </span><span class="n">a</span><span class="o">=</span><span class="mi">0</span>
-<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b0</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b0</span><span class="w"> </span><span class="p">)</span>
 <span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b0=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b0</span>
-<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span><span class="w"> </span><span class="p">)</span>
 <span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b1=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span>
-<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b2</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b2</span><span class="w"> </span><span class="p">)</span>
 <span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b2=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b2</span>
-<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b3</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b3</span><span class="w"> </span><span class="p">)</span>
 <span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b3=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b3</span>
+
+<span class="w">   </span><span class="n">a</span><span class="o">=</span><span class="mi">0</span>
+<span class="w">   </span><span class="n">b4</span><span class="o">=-</span><span class="mi">99</span>
+<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b4</span><span class="p">(</span><span class="mi">2</span><span class="p">,:,:)</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b4=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b4</span>
+
+<span class="w">   </span><span class="n">a</span><span class="o">=</span><span class="mi">0</span>
+<span class="w">   </span><span class="n">b4</span><span class="o">=-</span><span class="mi">99</span>
+<span class="w">   </span><span class="k">call </span><span class="n">wanted</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b4</span><span class="p">(:,</span><span class="mi">2</span><span class="p">,:)</span><span class="w"> </span><span class="p">)</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b4=&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b4</span>
 
 <span class="k">contains</span>
 
-<span class="k">   subroutine </span><span class="n">wanted</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="p">)</span>
-<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span>
-<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="p">(..)</span>
-
-<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">k</span>
-
-<span class="w">      </span><span class="k">select </span><span class="n">rank</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-<span class="w">      </span><span class="n">rank</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">subroutine </span><span class="n">wanted</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span>
+<span class="c">! This technique is known as pointer rank remapping (introduced in</span>
+<span class="c">! Fortran 2003 and expanded in Fortran 2008). See below for details</span>
+<span class="k">use </span><span class="n">M_flatten</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">flatten</span>
+<span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span>
+<span class="kt">integer</span><span class="p">,</span><span class="k">target</span><span class="p">,</span><span class="w"> </span><span class="k">contiguous</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="p">(..)</span>
+<span class="kt">integer</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+<span class="kt">integer</span><span class="p">,</span><span class="k">pointer</span><span class="w">                         </span><span class="kd">::</span><span class="w"> </span><span class="n">p_b</span><span class="p">(:)</span>
+<span class="w">   </span><span class="n">p_b</span><span class="o">=&gt;</span><span class="n">flatten</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
 <span class="w">      </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">      </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span>
-
-<span class="w">      </span><span class="n">rank</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-<span class="w">         </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">         </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span>
-<span class="w">      </span><span class="k">enddo</span>
-
-<span class="k">      </span><span class="n">rank</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="w">      </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="nb">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="w">         </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="w">            </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">            </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span>
-<span class="w">         </span><span class="k">enddo</span>
-<span class="k">      enddo</span>
-
-<span class="k">      </span><span class="n">rank</span><span class="w"> </span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="w">      </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="nb">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="w">         </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="nb">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="w">            </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="w">               </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">               </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span>
-<span class="w">            </span><span class="k">enddo</span>
-<span class="k">         enddo</span>
-<span class="k">      enddo</span>
-
-<span class="k">      </span><span class="n">rank</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
-<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;assumed size is unsupported&#39;</span>
-<span class="w">      </span><span class="k">stop </span><span class="mi">1</span>
-
-<span class="w">      </span><span class="n">rank</span><span class="w"> </span><span class="n">default</span>
-<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w">  </span><span class="s1">&#39;unsupported rank&#39;</span>
-<span class="w">      </span><span class="k">stop </span><span class="mi">2</span>
-
-<span class="w">   </span><span class="k">end select</span>
-
+<span class="w">      </span><span class="n">p_b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span>
+<span class="w">   </span><span class="k">enddo</span>
 <span class="k">end subroutine </span><span class="n">wanted</span>
+
 <span class="k">end program </span><span class="n">elem</span>
 </pre></div>
 
@@ -435,7 +431,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-06-13 01:39 +0000             </p>
+ on 2026-06-13 01:48 +0000             </p>
           </div>
         </div>
         <br>

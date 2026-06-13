@@ -192,7 +192,7 @@ subroutine wanted_32r( a, b)
 ! requires the multi-dimensional target array is simply contiguous.
 real(kind=real32),intent(inout)                   :: a
 real(kind=real32),target, contiguous, intent(out) :: b(..)
-ineger                                            :: i
+integer                                           :: i
 real(kind=real32),pointer                         :: p_b(:)
    p_b=>flatten(b)
    do i=1,size(b)
