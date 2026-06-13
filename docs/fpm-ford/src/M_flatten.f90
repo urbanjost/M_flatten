@@ -528,7 +528,7 @@
 module M_flatten
 use,intrinsic :: iso_fortran_env, only : int8, int16, int32, int64
 use,intrinsic :: iso_fortran_env, only : real32, real64
-implicit none
+implicit none(type,external)
 private
 public :: flatten
 interface flatten
