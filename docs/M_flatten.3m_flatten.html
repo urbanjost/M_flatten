@@ -221,7 +221,7 @@ Note that the called procedure WANTED(3) will not know the original rank
 or shape unless it is passed, but will know the size of the input array.
 <P>
 The argument to FLATTEN(3) should be a whole contiguous array. A
-slice or subsection would almost certaining just create and alter a
+slice or subsection would almost certainly just create and alter a
 temporary.
 <P>
 <PRE>
@@ -591,7 +591,7 @@ Pass the first element of the array or array section explicitly
 Generally when using sequence association and rank mismatch:
 <P>
 <PRE>
- + Place the "wanted" procedure in a seperate file without an
+ + Place the "wanted" procedure in a separate file without an
    interface, like you often would with F77 code.
 <P>
  + Declare the dummy argument dimension with an asterisk (*).
@@ -721,7 +721,7 @@ and then store it back into the original, which can be lot of overhead.
 o
 </TD><TD>
 use of intrinsics such as TRANSFER(3), RESHAPE(3), PACK(3), UNPACK(3)
-are often useful when transfering data to variables with a different shape.
+are often useful when transferring data to variables with a different shape.
 </TD></TR>
 <TR valign=top><TD width=3%>
 o

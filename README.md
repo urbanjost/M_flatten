@@ -169,50 +169,6 @@ end program elem
         [dependencies]
         M_flatten        = { git = "https://github.com/urbanjost/M_flatten.git" }
 ```
----
-![cmake](docs/images/cmake_logo-1.png)
----
-## Download and Build using cmake
-
-To download the github repository and build and install with cmake
-(you may wish to change the install path in src/CMakeLists.txt first) :
-```bash
-      git clone https://github.com/urbanjost/M_flatten.git
-      cd M_flatten
-
-      # Create a Build Directory:
-      mkdir -p build
-
-      cd build
-      cmake -S ../src -B .
-
-      # Configure the Build, specifying your preferred compiler (ifort, flang, etc.):
-      cmake . -DCMAKE_Fortran_COMPILER=gfortran
-
-      # Build the Project:
-      cmake --build .
-
-      #This creates:
-      #
-      #    lib/libM_flatten.a (the static library).
-      #    include/*.mod (module files).
-      #    test/* (test executables).
-      #    example/* (example executables).
-
-      # OPTIONAL SECTION:
-
-      # Verify build
-      ls lib/libM_flatten.a
-      ls include/*.mod
-      ls test/*
-      ls example/*
-
-      #Optionally Run Tests and Examples:
-      for name in ./test/* ./example/*
-      do
-         $name
-      done
-```
 ### A single-dimension array pointer can point to a multi-dimensional array?
 
 Yes, a single-dimension (rank-1) array pointer can point to a
