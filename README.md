@@ -1,8 +1,10 @@
 # M_flatten
 
-The **M_flatten** module provides the procedure **flatten(3)** which
-provides a function that returns a rank one array pointer which
-points to a scalar or an array of any shape.
+The **M_flatten** module provides the procedure **flatten(3)** which returns a rank one array pointer which
+points to a scalar or an array of any shape. This allows a procedure with an expliit interface to have an
+argument that is a scalar or multi-dimensioned array as well as a vector passed without having to define
+a generic interface. This was a common usage in old code but was not standard, making porting such code
+to modern syntax difficult otherwise.
 
 ## Calling FLATTEN(3) in the call to the user procedure
 
@@ -14,7 +16,7 @@ Note that the called procedure WANTED(3) will not know the original rank
 or shape unless it is passed, but will know the size of the input array.
 
 The argument to **FLATTEN(3)** should be a whole contiguous array. A
-slice or subsection would almost certaining just create and alter a
+slice or subsection would almost certainly just create and alter a
 temporary.
 
 ```fortran
