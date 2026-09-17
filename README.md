@@ -2,7 +2,7 @@ i M_flatten
 
 The **M_flatten** module provides the procedure **flatten(3)** which
 returns a rank one array pointer which points to a scalar or an array
-of any shape. This allows a procedure with an expliit interface to have
+of any shape. This allows a procedure with an explicit interface to have
 an argument that is a scalar or multi-dimensioned array as well as a
 vector passed without having to define a generic interface. This was a
 common usage in old code but was not standard, making porting such code
